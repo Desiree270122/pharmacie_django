@@ -1,0 +1,15 @@
+<!-- templates/checkout.html -->
+<form action="{% url 'checkout' %}" method="post">
+    {% csrf_token %}
+    <script
+      src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+      data-key="{{ STRIPE_PUBLIC_KEY }}"
+      data-amount="500"
+      data-name="NDK-Services"
+      data-description="Paiement sur NDK-Services"
+      data-image="https://ndk-services.com/static/images/logox.png"
+      data-locale="auto"
+      data-currency="eur">
+    </script>
+</form>
+  

@@ -1,0 +1,306 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<!-- Basic -->
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <!-- Mobile Metas -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Site Metas -->
+    <title>PHARMA BUSSNES</title>
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <!-- Site Icons -->
+    <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon">
+    <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    <!-- Site CSS -->
+    <link rel="stylesheet" href="{% static 'css/style.css' %}"> 
+    <!-- Responsive CSS -->
+    <link rel="stylesheet" href="{% static 'css/responsive.css' %}">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{% static 'css/custom.css' %}">
+
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <style>
+        .a-commander
+        {
+            color:#fff; 
+            background:#555;
+            padding:6px;
+        }
+        .a-commander:hover
+        {
+            color:#fff; 
+            background:#222;
+        }
+    </style>
+</head>
+
+<body>
+    {% block  header %}
+      {% include "header.html" %}
+    {% endblock  %}
+
+    <!-- Start Top Search -->
+    <div class="top-search">
+        <div class="container">
+            <div class="input-group">
+                <span class="input-group-addon"><i class="fa fa-search"></i></span>
+                <input type="text" class="form-control" placeholder="Search">
+                <span class="input-group-addon close-search"><i class="fa fa-times"></i></span>
+            </div>
+        </div>
+    </div>
+    <!-- End Top Search -->
+
+    <!-- Start Slider -->
+    <div id="slides-shop" class="cover-slides">
+        <ul class="slides-container">
+            <li class="text-center">
+                <img src="{% static 'images/banner-01.jpg' %}" alt="">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h1 class="m-b-20"><strong>Bienvenue chez<br> PHARMA BUSSNES</strong></h1>
+                            <!--p class="m-b-40">See how your users experience your website in realtime or view <br> trends to see any changes in performance over time.</p-->
+                            <p><a class="btn hvr-hover" href="{% url "shop" %}">Voir les produits</a></p>
+                        </div>
+                    </div>
+                </div>
+            </li>
+            <li class="text-center">
+                <img src="{% static 'images/banner-02.jpg' %}" alt="">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h1 class="m-b-20"><strong>Bienvenue chez<br> PHARMA BUSSNES</strong></h1>
+                            <!--p class="m-b-40">See how your users experience your website in realtime or view <br> trends to see any changes in performance over time.</p-->
+                            <p><a class="btn hvr-hover" href="{% url "shop" %}">Voir les produits</a></p>
+                        </div>
+                    </div>
+                </div>
+            </li>
+            <li class="text-center">
+                <img src="{% static 'images/banner-03.jpg' %}" alt="">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h1 class="m-b-20"><strong>Bienvenue chez<br>PHARMA BUSNES</strong></h1>
+                            <!--p class="m-b-40">See how your users experience your website in realtime or view <br> trends to see any changes in performance over time.</p-->
+                            <p><a class="btn hvr-hover" href="{% url "shop" %}">Voir les produits</a></p>
+                        </div>
+                    </div>
+                </div>
+            </li>
+        </ul>
+        <div class="slides-navigation">
+            <a href="#" class="next"><i class="fa fa-angle-right" aria-hidden="true"></i></a>
+            <a href="#" class="prev"><i class="fa fa-angle-left" aria-hidden="true"></i></a>
+        </div>
+    </div>
+    <!-- End Slider -->
+
+    
+
+    <!-- Start Products  -->
+    <div class="products-box">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="title-all text-center">
+                        <h1>Nos produits</h1>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="special-menu text-center">
+                        <div class="button-group filter-button-group">
+                            <button class="active" data-filter="*">Tout</button>
+                            {% for etiquette in etiquettes %}
+                                <button data-filter=".{{etiquette.value}}">{{etiquette}}</button>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row special-list">
+                {% for article_etiq_value in articles_etiq_value %}
+                <div class="col-lg-3 col-md-6 special-grid {{article.categorie}} {{article_etiq_value.etiquettes_value_str}}">
+                    <div class="products-single fix">
+                        <div class="box-img-hover">
+                            <div class="type-lb">
+                                <p class="sale">Sale</p>
+                            </div>
+                            <img src="{{ article_etiq_value.article.image.url }}" class="img-fluid" alt="Image">
+                            <div class="mask-icon">
+                                <ul>
+                                    <li><a href="{% url "shop" %}?pk={{article_etiq_value.article.id}}" data-toggle="tooltip" data-placement="right" title="View"><i class="fas fa-eye"></i></a></li>
+                                </ul>
+                                <a class="cart add_to_cart" style="cursor:pointer" pk="{{article_etiq_value.article.id}}">Ajouter au panier</a><br>
+                                
+                            </div>
+                        </div>
+                        <div class="why-text">
+                            <h4>{{article_etiq_value.article.designation}}</h4>
+                            {% if article_etiq_value.article.devise == 'dollar' %}
+                                <h5> $ {{article_etiq_value.article.prix}}</h5>
+                            {% elif article_etiq_value.article.devise == 'euro' %}
+                                <h5> Є {{article_etiq_value.article.prix}}</h5>
+                            {% endif %}
+                            <!-- <label class="lbl_feedback{{article_etiq_value.article.id}}" id="lbl_feedback"></label> -->
+                            {% if article_etiq_value.article.lien_paiement  %}
+                                <a class="a-commander" style="" href="{{article_etiq_value.article.lien_paiement}}">Commander directement</a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+                
+            </div>
+        </div>
+    </div>
+    <!-- End Products  -->
+
+    <!-- Start Blog  -->
+    <div class="latest-blog">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="title-all text-center">
+                        <h1>A propos</h1>
+                        <p>Prenez soin de la santé de vos clients avec nos produits pharmaceutiques de confiance <br/> La qualité au service de votre entreprise et de leur bien-être !</p>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 col-lg-4 col-xl-4">
+                    <div class="blog-box">
+                        <div class="blog-img">
+                            <img class="img-fluid" src="{% static 'images/blog-img.jpg' %}" alt="" />
+                        </div>
+                        <div class="blog-content">
+                            <div class="title-blog">
+                                <h3>Confection des produits</h3>
+                                <p>"Plongez dans l'univers de la santé sur mesure avec notre gamme exceptionnelle de produits pharmaceutiques. 
+                                  Chez PHARMA BUSSNES, nous vous fournissons des solutions adaptées à vos besoins professionnels, pour garantir le bien-être de vos clients avec des produits fiables et efficaces.</p>
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4 col-xl-4">
+                    <div class="blog-box">
+                        <div class="blog-img">
+                            <img class="img-fluid" src="{% static 'images/blog-img-01.jpg' %}" alt="" />
+                        </div>
+                        <div class="blog-content">
+                            <div class="title-blog">
+                                <h3>Notre équipe</h3>
+                                <p>Notre équipe d'experts en santé s'engage à vous offrir des produits de haute qualité, 
+                                    rigoureusement sélectionnés, afin d'accompagner vos clients au-delà des simples soins, avec une attention méticuleuse à chaque détail qui compte.</p>
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4 col-xl-4">
+                    <div class="blog-box">
+                        <div class="blog-img">
+                            <img class="img-fluid" src="{% static 'images/blog-img-02.jpg' %}" alt="" />
+                        </div>
+                        <div class="blog-content">
+                            <div class="title-blog">
+                                <h3>Engagement </h3>
+                                <p>Notre engagement envers la qualité se manifeste dans chaque aspect de notre service, de l'atmosphère accueillante de notre site à la sélection rigoureuse de nos produits
+                                     pharmaceutiques de premier choix. Laissez-nous vous accompagner dans un parcours où la santé et le bien-être s'harmonisent pour créer une expérience inoubliable.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Blog  -->
+
+    {% block  footer %}
+      {% include "footer.html" %}
+    {% endblock  %}
+    
+
+    <!-- ALL JS FILES -->
+    <script src="{% static 'js/jquery-3.2.1.min.js' %}"></script>
+    <script src="{% static 'js/popper.min.js' %}"></script>
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    <!-- ALL PLUGINS -->
+    <script src="{% static 'js/jquery.superslides.min.js' %}"></script>
+    <script src="{% static 'js/bootstrap-select.js' %}"></script>
+    <script src="{% static 'js/inewsticker.js' %}"></script>
+    <script src="{% static 'js/bootsnav.js' %}."></script>
+    <script src="{% static 'js/images-loded.min.js' %}"></script>
+    <script src="{% static 'js/isotope.min.js' %}"></script>
+    <script src="{% static 'js/owl.carousel.min.js' %}"></script>
+    <script src="{% static 'js/baguetteBox.min.js' %}"></script>
+    <script src="{% static 'js/form-validator.min.js' %}"></script>
+    <script src="{% static 'js/contact-form-script.js' %}"></script>
+    <script src="{% static 'js/custom.js' %}"></script>
+    <script type="text/javascript">
+        function add_to_cart()
+        {
+            const qte = 1;
+            const pk = $(this).attr('pk');
+            $.ajax(
+            {
+                type:"POST",
+                url: "add_to_cart/" + pk,
+                dataType:"json",
+                data:{qte:qte, csrfmiddlewaretoken:"{{csrf_token}}"},
+                success: function(response) 
+                {
+                    if(response.status == 1)
+                    {
+                        $('.lbl_feedback').html("Produit ajouté");
+                        $('.lbl_feedback').css({"color":"green"});
+                        $('.lbl_feedback').show(500);
+                        setTimeout(function(){
+                            $('.lbl_feedback'+pk).hide(500);
+                        },3000)
+                    }
+                }
+            });
+        }
+        $(".add_to_cart").click(add_to_cart);
+
+        setInterval(function(){
+            $.ajax(
+            {
+                type:"GET",
+                url: "{% url 'count_panier' %}",
+                dataType:"json",
+                data:{csrfmiddlewaretoken:"{{csrf_token}}"},
+                success: function(response) 
+                {
+                    if(response.status == 1)
+                    {
+                        $('.lbl_count').html(response.count);
+                    }
+                }
+            });
+        },3000)
+    </script>
+</body>
+
+</html>

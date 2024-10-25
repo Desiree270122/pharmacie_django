@@ -1,0 +1,247 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<!-- Basic -->
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <!-- Mobile Metas -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Site Metas -->
+    <title>PHARMA BISNESS</title>
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <!-- Site Icons -->
+    <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon">
+    <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+
+     <!-- Bootstrap CSS -->
+     <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+     <!-- Site CSS -->
+     <link rel="stylesheet" href="{% static 'css/style.css' %}"> 
+     <!-- Responsive CSS -->
+     <link rel="stylesheet" href="{% static 'css/responsive.css' %}">
+     <!-- Custom CSS -->
+     <link rel="stylesheet" href="{% static 'css/custom.css' %}">
+
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <style>
+        .a-commander
+        {
+            color:#fff; 
+            background:#555;
+            padding:6px;
+        }
+        .a-commander:hover
+        {
+            color:#fff; 
+            background:#222;
+        }
+    </style>
+</head>
+
+<body>
+    {% block  header %}
+      {% include "header.html" %}
+    {% endblock  %}
+
+    <!-- Start Top Search -->
+    <div class="top-search">
+        <div class="container">
+            <div class="input-group">
+                <span class="input-group-addon"><i class="fa fa-search"></i></span>
+                <input type="text" class="form-control" placeholder="Search">
+                <span class="input-group-addon close-search"><i class="fa fa-times"></i></span>
+            </div>
+        </div>
+    </div>
+    <!-- End Top Search -->
+
+    <!-- Start All Title Box -->
+    <ul class="breadcrumb">
+        <li class="breadcrumb-item"><a href="#">Accueil</a></li>
+        <li class="breadcrumb-item active">Articles</li>
+    </ul>
+    <!-- End All Title Box -->
+    
+    <!-- Start Shop Page  -->
+    <div class="shop-box-inner">
+        <div class="container">
+            <div class="row">
+                <div class="col-xl-12 col-lg-12 col-sm-12 col-xs-12 shop-content-right">
+                    <div class="right-product-box">
+                        <h2>Articles</h2>
+                        <div class="product-item-filter row">
+                            <div class="col-12 col-sm-8 text-center text-sm-left">
+                                <p>:{{articles.count}} articles</p>
+                            </div>
+                            <div class="col-12 col-sm-4 text-center text-sm-right">
+                                <ul class="nav nav-tabs ml-auto">
+                                    <li>
+                                        <a class="nav-link active" href="#grid-view" data-toggle="tab"> <i class="fa fa-th"></i> </a>
+                                    </li>
+                                    <li>
+                                        <a class="nav-link" href="#list-view" data-toggle="tab"> <i class="fa fa-list-ul"></i> </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="product-categorie-box">
+                            <div class="tab-content">
+                                <div role="tabpanel" class="tab-pane fade show active" id="grid-view">
+                                    <div class="row">
+                                        {% for article in articles %}
+                                        <div class="col-sm-6 col-md-6 col-lg-4 col-xl-4">
+                                            <div class="products-single fix">
+                                                <div class="box-img-hover">
+                                                    <div class="type-lb">
+                                                        <p class="sale">Vente</p>
+                                                    </div>
+                                                    <img src="{{ article.image.url }}" class="img-fluid" alt="Image">
+                                                    <div class="mask-icon">
+                                                        <ul>
+                                                            <li><a href="{% url "shop" %}?pk={{article.id}}" data-toggle="tooltip" data-placement="right" title="Voir détail"><i class="fas fa-eye"></i></a></li>
+                                                        </ul>
+                                                        <a  class="cart add_to_cart" pk="{{article.id}}" style="cursor:pointer">Ajouter au panier</a>
+                                                    </div>
+                                                </div>
+                                                <div class="why-text">
+                                                    <h4>{{ article.designation }}</h4>
+                                                    {% if article.devise == 'dollar' %}
+                                                        <h5> $ {{article.prix}}</h5>
+                                                    {% elif article.devise == 'euro' %}
+                                                        <h5> Є {{article.prix}}</h5>
+                                                    {% endif %}
+                                                    <label class="lbl_feedback" id="lbl_feedback"></label>
+                                                    {% if article.lien_paiement  %}
+                                                        <a class="a-commander" style="" href="{{article.lien_paiement}}">Commander directement</a>
+                                                    {% endif %}
+                                                </div>
+                                                
+                                            </div>
+                                        </div>
+                                        {% endfor %}
+                                        
+                                    </div>
+                                </div>
+                                <div role="tabpanel" class="tab-pane fade" id="list-view">
+                                    {% for article in articles %}
+                                    <div class="list-view-box">
+                                        <div class="row">
+                                            <div class="col-sm-6 col-md-6 col-lg-4 col-xl-4">
+                                                <div class="products-single fix">
+                                                    <div class="box-img-hover">
+                                                        <div class="type-lb">
+                                                            <p class="new">Sale</p>
+                                                        </div>
+                                                        <img src="{{ article.image.url }}" class="img-fluid" alt="Image">
+                                                        <div class="mask-icon">
+                                                            <ul>
+                                                                <li><a href="{% url "shop" %}?pk={{article.id}}" data-toggle="tooltip" data-placement="right" title="View"><i class="fas fa-eye"></i></a></li>
+                                                            </ul>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6 col-md-6 col-lg-8 col-xl-8">
+                                                <div class="why-text full-width">
+                                                    <h4>{{ article.designation }}</h4>
+                                                    {% if article.devise == 'dollar' %}
+                                                        <h5> $ {{article.prix}}</h5>
+                                                    {% elif article.devise == 'euro' %}
+                                                        <h5> Є {{article.prix}}</h5>
+                                                    {% endif %}
+                                                    <p>{{ article.description }}</p>
+                                                    <a class="btn hvr-hover" href="#">Ajouter au panier</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Shop Page -->
+
+    {% block  footer %}
+      {% include "footer.html" %}
+    {% endblock  %}
+
+    <!-- ALL JS FILES -->
+    <script src="{% static 'js/jquery-3.2.1.min.js' %}"></script>
+    <script src="{% static 'js/popper.min.js' %}"></script>
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    <!-- ALL PLUGINS -->
+    <script src="{% static 'js/jquery.superslides.min.js' %}"></script>
+    <script src="{% static 'js/bootstrap-select.js' %}"></script>
+    <script src="{% static 'js/inewsticker.js' %}"></script>
+    <script src="{% static 'js/bootsnav.js' %}."></script>
+    <script src="{% static 'js/images-loded.min.js' %}"></script>
+    <script src="{% static 'js/isotope.min.js' %}"></script>
+    <script src="{% static 'js/owl.carousel.min.js' %}"></script>
+    <script src="{% static 'js/baguetteBox.min.js' %}"></script>
+    <script src="{% static 'js/form-validator.min.js' %}"></script>
+    <script src="{% static 'js/contact-form-script.js' %}"></script>
+    <script src="{% static 'js/custom.js' %}"></script>
+    <script type="text/javascript">
+        function add_to_cart()
+        {
+            const qte = 1;
+            const pk = $(this).attr('pk');
+            $.ajax(
+            {
+                type:"POST",
+                url: "add_to_cart/" + pk,
+                dataType:"json",
+                data:{qte:qte, csrfmiddlewaretoken:"{{csrf_token}}"},
+                success: function(response) 
+                {
+                    if(response.status == 1)
+                    {
+                        $('.lbl_feedback').html("Produit ajouté");
+                        $('.lbl_feedback').css({"color":"green"});
+                        $('.lbl_feedback').show(500);
+                        setTimeout(function(){
+                            $('.lbl_feedback').hide(500);
+                        },3000)
+                    }
+                }
+            });
+        }
+        $(".add_to_cart").click(add_to_cart);
+
+        setInterval(function(){
+            $.ajax(
+            {
+                type:"GET",
+                url: "{% url 'count_panier' %}",
+                dataType:"json",
+                data:{csrfmiddlewaretoken:"{{csrf_token}}"},
+                success: function(response) 
+                {
+                    if(response.status == 1)
+                    {
+                        $('.lbl_count').html(response.count);
+                    }
+                }
+            });
+        },3000)
+    </script>
+</body>
+
+</html>

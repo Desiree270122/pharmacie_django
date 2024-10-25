@@ -1,0 +1,158 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<!-- Basic -->
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <!-- Mobile Metas -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Site Metas -->
+    <title>PHARMA - BUSSNES</title>
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <!-- Site Icons -->
+    <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon">
+    <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    <!-- Site CSS -->
+    <link rel="stylesheet" href="{% static 'css/style.css' %}"> 
+    <!-- Responsive CSS -->
+    <link rel="stylesheet" href="{% static 'css/responsive.css' %}">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{% static 'css/custom.css' %}">
+
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+
+<body>
+    {% block  header %}
+      {% include "header.html" %}
+    {% endblock  %}
+
+    <!-- Start Top Search -->
+    <div class="top-search">
+        <div class="container">
+            <div class="input-group">
+                <span class="input-group-addon"><i class="fa fa-search"></i></span>
+                <input type="text" class="form-control" placeholder="Search">
+                <span class="input-group-addon close-search"><i class="fa fa-times"></i></span>
+            </div>
+        </div>
+    </div>
+    <!-- End Top Search -->
+
+    <!-- Start All Title Box -->
+    <div class="all-title-box">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h2>A propos de nous</h2>
+                    <ul class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="#">Accueil</a></li>
+                        <li class="breadcrumb-item active">A PROPOS DE NOUS</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End All Title Box -->
+
+    <!-- Start About Page  -->
+    <div class="about-box-main">
+        <div class="container">
+            <div class="row">
+				<div class="col-lg-6">
+                    <div class="banner-frame"> <img class="img-fluid" src="{% static 'images/about-img.jpg' %}" alt="" />
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <h2 class="noo-sh-title-top">Nous sommes <span>PHARMA - BUSSNES</span></h2>
+                    <p>
+                    </p>
+                    <p>
+                    </p>
+					<a class="btn hvr-hover" href="{% url "contact" %}">Nous écrire</a>
+                </div>
+            </div>
+            <div class="row my-5">
+                <div class="col-sm-6 col-lg-4">
+                    <div class="service-block-inner">
+                        <h3>Confection des vêtements</h3>
+                        <p>
+                            Plongez dans l'univers de l'élégance sur mesure avec notre service de confection de vêtements 
+                        exceptionnel. Chez NDK-SERVICES, nous transformons vos idées en pièces vestimentaires uniques 
+                        qui capturent votre style personnel avec une précision artisanale. Notre équipe de couturiers 
+                        expérimentés met tout en œuvre pour créer des vêtements qui transcendent les tendances éphémères, 
+                        en privilégiant la qualité des matériaux et une attention méticuleuse aux détails.
+                    </p>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-lg-4">
+                    <div class="service-block-inner">
+                        <h3>Coiffures dames</h3>
+                        <p>
+                            Découvrez l'art de la transformation capillaire avec notre service de coiffure dame 
+                            exclusif. Nous sommes dévoués à sublimer votre beauté naturelle à travers des 
+                            créations capillaires inspirées et des techniques innovantes. Notre équipe de 
+                            coiffeurs talentueux met son expertise au service de votre style individuel, offrant 
+                            une gamme complète de services de coupe, de coloration et de coiffure. 
+                            Que vous aspiriez à une coupe tendance, une coloration audacieuse, ou une coiffure 
+                            élégante pour une occasion spéciale, nous sommes là pour créer l'expression 
+                            parfaite de votre personnalité.
+                        </p>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-lg-4">
+                    <div class="service-block-inner">
+                        <h3>Commerce et divers</h3>
+                        <p>
+                            Notre engagement envers la qualité se reflète dans chaque détail, de l'ambiance relaxante de notre 
+                            espace à l'utilisation de produits haut de gamme. Laissez-nous vous emmener dans un voyage où 
+                            la détente et l'embellissement se rejoignent pour créer une expérience holistique inoubliable. 
+                            Chez NDK-SERVICES, nous sommes bien plus qu'un simple fournisseur de services, nous sommes les 
+                            architectes de votre bien-être. Découvrez notre éventail de prestations diverses et offrez-vous 
+                            le luxe de prendre soin de vous, de la tête aux pieds.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+    <!-- End About Page -->
+
+    {% block  footer %}
+      {% include "footer.html" %}
+    {% endblock  %}
+
+    <!-- ALL JS FILES -->
+    <script src="{% static 'js/jquery-3.2.1.min.js' %}"></script>
+    <script src="{% static 'js/popper.min.js' %}"></script>
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    <!-- ALL PLUGINS -->
+    <script src="{% static 'js/jquery.superslides.min.js' %}"></script>
+    <script src="{% static 'js/bootstrap-select.js' %}"></script>
+    <script src="{% static 'js/inewsticker.js' %}"></script>
+    <script src="{% static 'js/bootsnav.js' %}."></script>
+    <script src="{% static 'js/images-loded.min.js' %}"></script>
+    <script src="{% static 'js/isotope.min.js' %}"></script>
+    <script src="{% static 'js/owl.carousel.min.js' %}"></script>
+    <script src="{% static 'js/baguetteBox.min.js' %}"></script>
+    <script src="{% static 'js/form-validator.min.js' %}"></script>
+    <script src="{% static 'js/contact-form-script.js' %}"></script>
+    <script src="{% static 'js/custom.js' %}"></script>
+</body>
+
+</html>
