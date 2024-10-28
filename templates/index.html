@@ -11,7 +11,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <!-- Site Metas -->
-    <title>PHARMA BUSSNES</title>
+    <title>PHARMAcie du bien être </title>
     <meta name="keywords" content="">
     <meta name="description" content="">
     <meta name="author" content="">
@@ -28,6 +28,8 @@
     <link rel="stylesheet" href="{% static 'css/responsive.css' %}">
     <!-- Custom CSS -->
     <link rel="stylesheet" href="{% static 'css/custom.css' %}">
+
+    <link rel="stylesheet" href="{% static 'css/superslides.css' %}">
 
     <!--[if lt IE 9]>
       <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
@@ -69,37 +71,61 @@
     <div id="slides-shop" class="cover-slides">
         <ul class="slides-container">
             <li class="text-center">
-                <img src="{% static 'images/banner-01.jpg' %}" alt="">
+                <img class="slide-image" src="{% static 'images/image_back/logo_pharma.jpg' %}" alt="">
                 <div class="container">
                     <div class="row">
                         <div class="col-md-12">
-                            <h1 class="m-b-20"><strong>Bienvenue chez<br> PHARMA BUSSNES</strong></h1>
+                            <h1 class="m-b-20"><strong>Bienvenue dans la <br> Pharmacie du bien être</strong></h1>
                             <!--p class="m-b-40">See how your users experience your website in realtime or view <br> trends to see any changes in performance over time.</p-->
-                            <p><a class="btn hvr-hover" href="{% url "shop" %}">Voir les produits</a></p>
+                            <p><a class="btn hvr-hover" href="{% url 'shop' %}">Voir les produits</a></p>
                         </div>
                     </div>
                 </div>
             </li>
             <li class="text-center">
-                <img src="{% static 'images/banner-02.jpg' %}" alt="">
+                <img class="slide-image" src="{% static 'images/image_back/medi.jpg' %}" alt="">
                 <div class="container">
                     <div class="row">
                         <div class="col-md-12">
-                            <h1 class="m-b-20"><strong>Bienvenue chez<br> PHARMA BUSSNES</strong></h1>
+                            <h1 class="m-b-20"><strong>Bienvenue dans la<br> Pharmacie du bien être </strong></h1>
                             <!--p class="m-b-40">See how your users experience your website in realtime or view <br> trends to see any changes in performance over time.</p-->
-                            <p><a class="btn hvr-hover" href="{% url "shop" %}">Voir les produits</a></p>
+                            <p><a class="btn hvr-hover" href="{% url 'shop' %}">Voir les produits</a></p>
                         </div>
                     </div>
                 </div>
             </li>
             <li class="text-center">
-                <img src="{% static 'images/banner-03.jpg' %}" alt="">
+                <img class="slide-image" src="{% static 'images/image_back/medoc.jpg' %}" alt="">
                 <div class="container">
                     <div class="row">
                         <div class="col-md-12">
-                            <h1 class="m-b-20"><strong>Bienvenue chez<br>PHARMA BUSNES</strong></h1>
+                            <h1 class="m-b-20"><strong>Bienvenue dans la <br>Pharmacie du bien être</strong></h1>
                             <!--p class="m-b-40">See how your users experience your website in realtime or view <br> trends to see any changes in performance over time.</p-->
-                            <p><a class="btn hvr-hover" href="{% url "shop" %}">Voir les produits</a></p>
+                            <p><a class="btn hvr-hover" href="{% url 'shop' %}">Voir les produits</a> </p>
+                        </div>
+                    </div>
+                </div>
+            </li>
+            <li class="text-center">
+                <img class="slide-image" src="{% static 'images/image_back/verifi.jpg' %}" alt="">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h1 class="m-b-20"><strong>Bienvenue dans la <br>Pharmacie du bien être</strong></h1>
+                            <!--p class="m-b-40">See how your users experience your website in realtime or view <br> trends to see any changes in performance over time.</p-->
+                            <p><a class="btn hvr-hover" href="{% url 'shop' %}">Voir les produits</a> </p>
+                        </div>
+                    </div>
+                </div>
+            </li>
+            <li class="text-center">
+                <img class="slide-image" src="{% static 'images/image_back/verification.jpg' %}" alt="">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h1 class="m-b-20"><strong>Bienvenue dans la <br>Pharmacie du bien être</strong></h1>
+                            <!--p class="m-b-40">See how your users experience your website in realtime or view <br> trends to see any changes in performance over time.</p-->
+                            <p><a class="btn hvr-hover" href="{% url 'shop' %}">Voir les produits</a> </p>
                         </div>
                     </div>
                 </div>
@@ -148,7 +174,7 @@
                             <img src="{{ article_etiq_value.article.image.url }}" class="img-fluid" alt="Image">
                             <div class="mask-icon">
                                 <ul>
-                                    <li><a href="{% url "shop" %}?pk={{article_etiq_value.article.id}}" data-toggle="tooltip" data-placement="right" title="View"><i class="fas fa-eye"></i></a></li>
+                                    <li><a href="{% url 'shop' %}?pk={{article_etiq_value.article.id}}" data-toggle="tooltip" data-placement="right" title="View"><i class="fas fa-eye"></i></a></li>
                                 </ul>
                                 <a class="cart add_to_cart" style="cursor:pointer" pk="{{article_etiq_value.article.id}}">Ajouter au panier</a><br>
                                 
@@ -190,7 +216,7 @@
                 <div class="col-md-6 col-lg-4 col-xl-4">
                     <div class="blog-box">
                         <div class="blog-img">
-                            <img class="img-fluid" src="{% static 'images/blog-img.jpg' %}" alt="" />
+                            <img class="img-fluid" src="{% static 'images/pharmaciens/pharmacien1.jpg' %}" alt="" />
                         </div>
                         <div class="blog-content">
                             <div class="title-blog">
@@ -205,7 +231,7 @@
                 <div class="col-md-6 col-lg-4 col-xl-4">
                     <div class="blog-box">
                         <div class="blog-img">
-                            <img class="img-fluid" src="{% static 'images/blog-img-01.jpg' %}" alt="" />
+                            <img class="img-fluid" src="{% static 'images/pharmaciens/pharmacien2.jpg' %}" alt="" />
                         </div>
                         <div class="blog-content">
                             <div class="title-blog">
@@ -220,7 +246,7 @@
                 <div class="col-md-6 col-lg-4 col-xl-4">
                     <div class="blog-box">
                         <div class="blog-img">
-                            <img class="img-fluid" src="{% static 'images/blog-img-02.jpg' %}" alt="" />
+                            <img class="img-fluid" src="{% static 'images/pharmaciens/pharmacien4.jpg' %}" alt="" />
                         </div>
                         <div class="blog-content">
                             <div class="title-blog">

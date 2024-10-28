@@ -33,13 +33,13 @@
     SKELETON
 -------------------------------------------------------------------*/
  body {
-     color: #666666;
+     color: blue;
      font-size: 15px;
      font-family: 'Dosis', sans-serif;
      line-height: 1.80857;
 }
  a {
-     color: #1f1f1f;
+     color: while;
      text-decoration: none !important;
      outline: none !important;
      -webkit-transition: all .3s ease-in-out;
@@ -162,7 +162,7 @@
 }
 /*------------------------------------------------------------------ HEADER -------------------------------------------------------------------*/
  .main-top{
-     background: #000000;
+     background: #391f85;
      padding: 10px 0px;
 }
  .custom-select-box{
@@ -1270,7 +1270,7 @@
 /*------------------------------------------------------------------ Footer Main -------------------------------------------------------------------*/
  .footer-main{
      padding: 70px 0px;
-     background: #010101;
+     background: 	#371a8d;
 }
 .footer-main hr{
 	border-top: 1px solid rgba(255,255,255,.6);
@@ -1296,7 +1296,7 @@
 	margin-top: 15px;
 }
 .footer-top-box .list-time li{
-	color: #ffffff;
+	color: #0000FF;
 	font-size: 16px;
 	display: block;
 	float: none;

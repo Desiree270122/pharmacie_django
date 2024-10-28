@@ -4,6 +4,13 @@
 #slides .slides-container {
   display: none;
 }
+
+.slide-image{
+    height: 20vh !important;
+    width: 20vh !important;
+    border: 5px solid black !important;
+
+}
 #slides .scrollable {
   *zoom: 1;
   position: relative;

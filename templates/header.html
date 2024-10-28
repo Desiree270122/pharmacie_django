@@ -6,19 +6,19 @@
             <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                 
                 <div class="right-phone-box">
-                    <p>Appellez-nous :<a href="tel:+337 69250712"> +33 7 69 25 07 12</a></p>
+                    <p>Appellez-nous :<a href="tel: +84 862104473"> +84 86 21 04 4473</a></p>
                 </div>
                 <div class="our-link">
                     <ul>
-                        <li><a href="{% url "login" %}"><i class="fa fa-user s_color"></i> Mon compte</a></li>
+                        <li><a href="{% url 'login' %}"><i class="fa fa-user s_color"></i> Mon compte</a></li>
                         
-                        <li><a href="{% url "contact" %}"><i class="fas fa-headset"></i> Nous contacter</a></li>
+                        <li><a href="{% url 'contact' %}"><i class="fas fa-headset"></i> Nous contacter</a></li>
                         <li><a href="{% url 'services' %}" class="">A propos</a></li>
                     </ul>
                 </div>
             </div>
             <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12" style="color:#fff; text-align:right">
-                <a href="{% url "logout" %}" style="color:#fff;">
+                <a href="{% url 'logout' %}" style="color:#fff;">
                     {{request.user.prenom}} {{request.user.nom}}
                 </a>
             </div>
@@ -37,18 +37,18 @@
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-menu" aria-controls="navbars-rs-food" aria-expanded="false" aria-label="Toggle navigation">
                 <i class="fa fa-bars"></i>
             </button>
-                <a class="navbar-brand" href="index.html"><img src="{% static 'images/logox.png' %}" class="logo" alt=""></a>
+                <a class="navbar-brand" href="index.html"><img src="{% static 'images/logo.png' %}" class="logo" alt=""></a>
             </div>
             <!-- End Header Navigation -->
 
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="navbar-menu">
                 <ul class="nav navbar-nav ml-auto" data-in="fadeInDown" data-out="fadeOutUp">
-                    <li class="nav-item active"><a class="nav-link" href="{% url "accueil" %}">Accueil</a></li>
-                    <li><a href="{% url "shop" %}" class="nav-link">Articles</a></li>
-                    <li><a href="{% url "panier" %}" class="nav-link">Panier<span class="badge lbl_count" style="font-size:13px;color:red;position:relative;bottom:10px">{{panier.count}}</span></a></li>
+                    <li class="nav-item active"><a class="nav-link" href="{% url 'accueil' %}">Accueil</a></li>
+                    <li><a href="{% url 'shop' %}" class="nav-link">Articles</a></li>
+                    <li><a href="{% url 'panier' %}" class="nav-link">Panier<span class="badge lbl_count" style="font-size:13px;color:red;position:relative;bottom:10px">{{panier.count}}</span></a></li>
                     <!--li class="nav-item"><a class="nav-link" href="gallery.html">Gallery</a></li-->
-                    <li class="nav-item"><a class="nav-link" href="{% url "contact" %}">Contact</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'contact' %}">Contact</a></li>
                 </ul>
             </div>
             <!-- /.navbar-collapse -->
@@ -80,7 +80,7 @@
                     {% for pan in panier %}
                     <li>
                         <a href="#" class="photo"><img src="{% static 'images/' %}{{pan.article.image}}" class="cart-thumb" alt="" /></a>
-                        <h6><a href="{% url "panier" %}">{{pan.article.designation}} </a></h6>
+                        <h6><a href="{% url 'panier' %}">{{pan.article.designation}} </a></h6>
                         <p><span class="price">{{pan.article.devise}}{{pan.article.prix}}</span> - Qté: {{pan.qte}}</p>
                     </li>
                     {% endfor %}
@@ -91,15 +91,15 @@
     </nav>
     <!-- End Navigation -->
     {% if etiquettes and etiq %}
-    <a href="{% url "shop" %}?etiq" class="" style="background:#b0b435;padding:4px;color:#fff;text-transform:capitalize;">Tout</a>
+    <a href="{% url 'shop' %}?etiq" class="" style="background:#b0b435;padding:4px;color:#fff;text-transform:capitalize;">Tout</a>
     {% elif etiquettes and not etiq %}
-    <a href="{% url "shop" %}?etiq" class="" style="background:#000;padding:4px;color:#fff;text-transform:capitalize;">Tout</a>
+    <a href="{% url 'shop' %}?etiq" class="" style="background:#000;padding:4px;color:#fff;text-transform:capitalize;">Tout</a>
     {% endif %}
     {% for etiquette in etiquettes %}
         {% if etiq|stringformat:"s" == etiquette.id|stringformat:"s" %}
-            <a href="{% url "shop" %}?etiq={{ etiquette.id }}" class="" style="background:#000;padding:4px;color:#fff;text-transform:capitalize;">{{ etiquette }}</a>
+            <a href="{% url 'shop' %}?etiq={{ etiquette.id }}" class="" style="background:#000;padding:4px;color:#fff;text-transform:capitalize;">{{ etiquette }}</a>
         {% else %}
-            <a href="{% url "shop" %}?etiq={{ etiquette.id }}" class="" style="background:#b0b435;padding:4px;color:#fff;text-transform:capitalize;">{{ etiquette }}</a>
+            <a href="{% url 'shop' %}?etiq={{ etiquette.id }}" class="" style="background:#b0b435;padding:4px;color:#fff;text-transform:capitalize;">{{ etiquette }}</a>
         {% endif %}
     {% endfor %}
 </header>
