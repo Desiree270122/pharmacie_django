@@ -1,12 +1,20 @@
 from django.contrib import messages
+from django.contrib.sites.shortcuts import get_current_site
+from django.core.mail import send_mail
 from django.shortcuts import render, redirect
 from django.http import HttpResponseRedirect, JsonResponse
 from django.contrib.auth import authenticate, login, logout
 from django.core.files import File
 from django.contrib.auth.decorators import login_required
 from django.db.models import Sum
+from django.template.loader import render_to_string
+from django.urls import reverse
+
+from .forms import RegisterForm
 from .serializers import *
 from .models import *
+from .utils import generate_username
+
 
 # Create your views here.
 
@@ -96,14 +104,19 @@ def log(request):
 
 
 def creer_compte(request):
+    print('je suis ici')
     if request.method == 'POST':
+        form = RegisterForm(request.POST)
+
         password = request.POST.get('password')
+        email = request.POST.get('email')
+        username = generate_username(email)
         if password == request.POST.get('password1'):
             user = CustomUser(
                 nom = request.POST.get('nom'),
                 prenom = request.POST.get('prenom'),
-                email = request.POST.get('email'),
-                username = request.POST.get('email'),
+                email = email,
+                username = username,
                 phone = request.POST.get('phone'),
                 password = password
             )
@@ -111,8 +124,58 @@ def creer_compte(request):
             user.password = user.set_password(password)
             user.save()
             login(request, user)
+
+            # Send verification mail. Handle any exception that could occur.
+            try:
+                verify_email(user, request)
+
+                return redirect('login')
+            except Exception as e:
+                print(e)
+                msg = settings.ERROR_COULD_NOT_SEND_VERIF_EMAIL
+                messages.error(request, msg)
+
             return redirect('accueil')
-    return redirect('creer_compte')
+    else:
+        form = RegisterForm()
+
+    context = {
+        "form": form
+    }
+    return render(request, 'creer_compte.html', context)
+
+
+def verify_email(user, request):
+    """Send verification mail"""
+    # from apps.authentication.views.utils import get_site_scheme_and_domain
+
+
+    from_email = settings.DEFAULT_FROM_EMAIL
+    mail_subject = "Account Registration Confirmation"
+    to_email = user.email
+
+    msge = render_to_string(
+      "email/acc_active_email.txt",
+      {
+        "username": user.username,
+      },
+    )
+
+    msge_html = render_to_string(
+      "email/acc_active_email.html",
+      {
+        "username": user.username,
+      },
+    )
+    send_mail(
+      mail_subject,
+      msge,
+      from_email,
+      [to_email, ],
+      fail_silently=False,
+      html_message=msge_html,
+    )
+
 
 @login_required(login_url='login')
 def ajouter_au_panier(request, pk):

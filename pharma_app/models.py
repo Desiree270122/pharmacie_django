@@ -3,6 +3,7 @@ from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, Group
 from django.contrib.auth.base_user import BaseUserManager
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
+from typing_extensions import Tuple
 
 
 class CustomUserManager(BaseUserManager):
@@ -46,7 +47,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     username = models.CharField(_("username"), unique=True, max_length=50)
     nom = models.CharField(max_length=50, null=True, blank=True)
     prenom = models.CharField(max_length=50, null=True, blank=True)
-    email = models.CharField(max_length=100, null=True, blank=True)
+    email = models.CharField(max_length=100, null=True, blank=True, unique=True)
     phone = models.CharField(max_length=100, null=True, blank=True)
     password = models.CharField(max_length=100, null=True, blank=True)
 
@@ -54,7 +55,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     is_active = models.BooleanField(default=True)
     date_joined = models.DateTimeField(default=timezone.now) 
 
-    USERNAME_FIELD = "username"
+    USERNAME_FIELD = "email"
     REQUIRED_FIELDS = []
 
     objects = CustomUserManager()

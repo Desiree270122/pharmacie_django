@@ -86,7 +86,7 @@
                 <div class="col-lg-12">
                     <h2>Compte</h2>
                     <ul class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="#">Shop</a></li>
+                        <li class="breadcrumb-item"><a href="#">Depôt</a></li>
                         <li class="breadcrumb-item active">Compte</li>
                     </ul>
                 </div>
@@ -95,7 +95,7 @@
     </div>
     <!-- End All Title Box -->
 
-    <!-- Start Cart  -->
+ <!-- Start Cart  -->
     <div class="cart-box-main">
         <div class="container">
             <div class="row new-account-login">
@@ -119,20 +119,24 @@
                                 <input type="password" class="form-control" id="InputPassword" placeholder="Entrez le mot de passe" name="password"> </div>
                         </div>
                         <button type="submit" class="btn hvr-hover" style="color:#fff">Se connecter</button><br/>
-                        Vous n'avez pas de compte ? 
-                        <a href="{% url "signin" %}" class="" style="color:blue">Créer compte</a>
+                        Vous n'avez pas de compte ?
+                        <a href="{% url 'signin' %}" class="" style="color:blue">Créer compte</a>
                     </form>
                 </div>
-                
+
             </div>
             <div class="row">
-                
-                
+
+
             </div>
 
         </div>
     </div>
     <!-- End Cart -->
+
+
+
+
 
     {% block  footer %}
       {% include "footer.html" %}

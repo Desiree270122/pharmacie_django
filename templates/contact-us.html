@@ -70,69 +70,61 @@
     <!-- End All Title Box -->
 
     <!-- Start Nous contacter  -->
-    <div class="contact-box-main">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-8 col-sm-12">
-                    <div class="contact-form-right">
-                        <h2>ECRIVEZ NOUS</h2>
-                        <p>Ecrivez nous pour effectuer des demandes plus spécifiques</p>
-                        <form id="contactForm" method="post" action="{% url 'message_contact' %}">
-                            {% csrf_token %}
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <input type="text" class="form-control noms_complet" id="name" name="noms_complet" placeholder="Votre nom complet" required data-error="Please enter your name">
-                                        <div class="help-block with-errors"></div>
-                                    </div>
-                                </div>
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <input type="text" placeholder="Votre adresse mail" id="email" class="form-control email" name="email" required data-error="Please enter your email">
-                                        <div class="help-block with-errors"></div>
-                                    </div>
-                                </div>
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <input type="text" placeholder="Votre numéro de téléphone" id="phone" class="form-control telephone" name="telephone" required data-error="Please enter your email">
-                                        <div class="help-block with-errors"></div>
-                                    </div>
-                                </div>
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <textarea class="form-control message" id="message" placeholder="Votre Message" rows="4" data-error="Write your message" name="message" required></textarea>
-                                        <div class="help-block with-errors"></div>
-                                    </div>
-                                    <div class="submit-button text-center">
-                                        <button class="btn hvr-hover" id="submit" type="submit">Envoyer le message</button>
-                                        <div id="msgSubmit" class="h3 text-center hidden"></div>
-                                        <div class="clearfix"></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
+<div class="contact-box-main py-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-sm-12 mb-4">
+                <div class="contact-form-right card shadow-sm border-0 p-4">
+                    <h2 class="text-center mb-4">Écrivez-nous</h2>
+                    <p class="text-center text-muted mb-4">Remplissez le formulaire ci-dessous pour toute demande spécifique.</p>
+                    <form id="contactForm" method="post" action="{% url 'message_contact' %}">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <label for="name">Nom complet</label>
+                            <input type="text" class="form-control noms_complet" id="name" name="noms_complet" placeholder="Votre nom complet" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Adresse e-mail</label>
+                            <input type="email" placeholder="Votre adresse mail" id="email" class="form-control email" name="email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="phone">Numéro de téléphone</label>
+                            <input type="tel" placeholder="Votre numéro de téléphone" id="phone" class="form-control telephone" name="telephone" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="message">Votre message</label>
+                            <textarea class="form-control message" id="message" placeholder="Votre message" rows="5" required></textarea>
+                        </div>
+                        <div class="text-center">
+                            <button class="btn btn-primary btn-lg rounded-pill px-5" id="submit" type="submit">Envoyer le message</button>
+                        </div>
+                    </form>
                 </div>
-				<div class="col-lg-4 col-sm-12">
-                    <div class="contact-info-left">
-                        <h2>INFO DE CONTACT</h2>
-                        <ul>
-                            <li>
-                                <p><i class="fas fa-map-marker-alt"></i>Adresse: Gare de Juvisy sur orge, 91260</p>
-                            </li>
-                            <li>
-                                <p><i class="fas fa-phone-square"></i>Phone: <a href="tel: +33769250712"> +33 7 69 25 07 12</a></p>
-                            </li>
-                            <li>
-                                <p><i class="fas fa-envelope"></i>Email: <a href="mailto:associationndukuteregine@gmail.com">associationndukuteregine@gmail.com</a></p>
-                            </li>
-                        </ul>
-                    </div>
+            </div>
+            <div class="col-lg-4 col-sm-12">
+                <div class="contact-info-left card shadow-sm border-0 p-4">
+                    <h2 class="card-title">Info de contact</h2>
+                    <ul class="list-unstyled mt-4">
+                        <li class="mb-3">
+                            <i class="fas fa-map-marker-alt mr-2 text-primary"></i>
+                            <strong>Adresse :</strong> Gare de Juvisy sur orge, 91260
+                        </li>
+                        <li class="mb-3">
+                            <i class="fas fa-phone-square mr-2 text-primary"></i>
+                            <strong>Téléphone :</strong> <a href="tel:+84862104473">+84 862 104 473</a>
+                        </li>
+                        <li>
+                            <i class="fas fa-envelope mr-2 text-primary"></i>
+                            <strong>Email :</strong> <a href="mailto:pharmaciedubienetre@gmail.com">mailto:pharmaciedubienetre@gmail.com</a>
+                        </li>
+                    </ul>
                 </div>
             </div>
         </div>
     </div>
-    <!-- End Cart -->
+</div>
+<!-- End Contact Box -->
+
 
     {% block  footer %}
       {% include "footer.html" %}
