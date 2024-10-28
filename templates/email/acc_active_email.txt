@@ -1,0 +1,9 @@
+{% autoescape off %}
+Welcome {{ username }}!
+
+Vous venez de vous inscrire sur Pharmacie du bien être.
+
+Besity - Diversity and Inclusion Ecosystem
+
+------------------------------------------
+{% endautoescape %}
