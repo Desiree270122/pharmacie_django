@@ -82,30 +82,13 @@
                         </div>
                         <form id="formRegister" role="form" method="post" action="#">
                             {% csrf_token %}
-                            <div class="form-group">
-                                <label for="InputName">Prénom</label>
-                                <input type="text" class="form-control rounded-pill" id="InputName" placeholder="Prénom" name="prenom" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="InputLastname">Nom</label>
-                                <input type="text" class="form-control rounded-pill" id="InputLastname" placeholder="Nom" name="nom" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="InputEmail1">Email</label>
-                                <input type="email" class="form-control rounded-pill" id="InputEmail1" placeholder="Entrez Email" name="email" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="InputPhone">Téléphone</label>
-                                <input type="tel" class="form-control rounded-pill" id="InputPhone" placeholder="Numéro de téléphone" name="phone" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="InputPassword1">Mot de passe</label>
-                                <input type="password" class="form-control rounded-pill" id="InputPassword1" placeholder="Entrez le mot de passe" name="password" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="InputPassword2">Repétez le mot de passe</label>
-                                <input type="password" class="form-control rounded-pill" id="InputPassword2" placeholder="Repétez le mot de passe" name="password1" required>
-                            </div>
+                             {% for field in form %}
+                              <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                              <div class="mb-3">
+                                {{field}}
+                              </div>
+                              <span class="text-danger">{{ field.errors }}</span>
+                            {% endfor %}
                             <button type="submit" class="btn btn-success btn-block rounded-pill mt-4">Créer compte</button>
                         </form>
                     </div>

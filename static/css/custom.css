@@ -6,8 +6,8 @@
 }
 
 .slide-image{
-    height: 20vw !important;
-    width: 20vw !important;
+    height: 80vw !important;
+    width: 80vw !important;
 }
 #slides .scrollable {
   *zoom: 1;

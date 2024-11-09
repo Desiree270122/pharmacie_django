@@ -10,7 +10,7 @@ from django.db.models import Sum
 from django.template.loader import render_to_string
 from django.urls import reverse
 
-from .forms import RegisterForm
+from .forms import RegisterForm, LoginForm
 from .serializers import *
 from .models import *
 from .utils import generate_username
@@ -80,21 +80,40 @@ def template_apropos(request):
     return render(request, "about.html", {"articles":articles, "panier":panier})
 
 def se_connecter(request):
-    if request.method == 'POST':
-        username = request.POST.get('username')
-        password = request.POST.get('password')
-        
-        # try:
-        user = authenticate(username=username, password=password)
+    form = LoginForm(request.POST or None)
+
+    if form.is_valid():
+        email = form.cleaned_data.get("email")
+        password = form.cleaned_data.get("password")
+
+        user = authenticate(username=email, password=password)
         if user is not None:
             login(request, user)
             messages.success(request, 'Connexion réussie!')
-            return redirect('accueil', message='success')
+            return redirect('accueil')
+        else:
+            messages.error(request, 'Echec de connexxion')
+    else:
+        print(form.errors)
+    """if request.method == 'POST':
+        email = request.POST.get('email')
+        password = request.POST.get('password')
+        
+        # try:
+            user = authenticate(username=email, password=password)
+        if user is not None:
+            login(request, user)
+            messages.success(request, 'Connexion réussie!')
+            return redirect('accueil')
         else:
             messages.error(request, 'Echec de connexxion')
         # except Exception as e:
         #     messages.error(request, 'Erreur: Vérifiez vos identifiants')
-    return redirect('login')
+    """
+    context = {
+        "form": form,
+    }
+    return render(request, 'login.html', context)
 
 
 def log(request):
@@ -108,21 +127,15 @@ def creer_compte(request):
     if request.method == 'POST':
         form = RegisterForm(request.POST)
 
-        password = request.POST.get('password')
-        email = request.POST.get('email')
-        username = generate_username(email)
-        if password == request.POST.get('password1'):
-            user = CustomUser(
-                nom = request.POST.get('nom'),
-                prenom = request.POST.get('prenom'),
-                email = email,
-                username = username,
-                phone = request.POST.get('phone'),
-                password = password
-            )
+        if form.is_valid():
+            user = form.save(commit=False)
+            user.role = user.CLIENT
+            email = request.POST.get('email')
+            user.username = generate_username(email)
+            user.is_active = True
+            user.first_login = True
             user.save()
-            user.password = user.set_password(password)
-            user.save()
+
             login(request, user)
 
             # Send verification mail. Handle any exception that could occur.
@@ -136,6 +149,27 @@ def creer_compte(request):
                 messages.error(request, msg)
 
             return redirect('accueil')
+
+            # password = request.POST.get('password')
+
+            """if password == request.POST.get('password1'):
+                user = CustomUser(
+                    nom = request.POST.get('nom'),
+                    prenom = request.POST.get('prenom'),
+                    email = email,
+                    username = username,
+                    phone = request.POST.get('phone'),
+                    password = password
+                )
+                
+                user.password = user.set_password(password)
+                user.save()
+                login(request, user)
+
+            """
+        else:
+            print(form.errors)
+
     else:
         form = RegisterForm()
 

@@ -25,7 +25,7 @@ class Detail_commandeAdmin(admin.ModelAdmin):
     list_display = ('article', 'commande', 'qte')
     
 class CustomUserAdmin(admin.ModelAdmin):
-    list_display = ('prenom', 'nom', 'email', 'phone', 'role', 'date_joined')
+    list_display = ('first_name', 'last_name', 'email', 'phone', 'role', 'date_joined')
 
 class EtiquetteAdmin(admin.ModelAdmin):
     list_display = ('nom', 'value', 'create_date')
@@ -37,7 +37,7 @@ admin.site.register(CustomUser, CustomUserAdmin)
 admin.site.register(Article, ArticleAdmin)
 admin.site.register(Detail_commande, Detail_commandeAdmin)
 admin.site.register(Commande, CommandeAdmin)
-admin.site.register(Panier)
+#admin.site.register(Panier)
 admin.site.register(Message, MessageAdmin)
 admin.site.register(Etiquette, EtiquetteAdmin)
 
