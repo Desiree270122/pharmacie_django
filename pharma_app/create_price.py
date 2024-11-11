@@ -8,7 +8,7 @@ starter_subscription = stripe.Product.create(
 
 starter_subscription_price = stripe.Price.create(
   unit_amount=25,
-  currency="usd",
+  currency="VND",
   recurring={"interval": "month"},
   product=starter_subscription['id'],
 )
