@@ -10,6 +10,11 @@ from django.db.models import Sum
 from django.template.loader import render_to_string
 from django.urls import reverse
 
+from django.shortcuts import render, redirect
+from django.views import View
+
+
+
 from .forms import RegisterForm, LoginForm
 from .serializers import *
 from .models import *

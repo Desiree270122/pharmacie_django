@@ -17,8 +17,11 @@
     <meta name="author" content="">
 
     <!-- Site Icons -->
-    <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon">
+    <!--
+     <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon">
     <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+
+     -->
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
@@ -81,12 +84,14 @@
                             
                             <div class="row">
                                 <div class="col-md-5 mb-3">
-                                    <label for="country">Pays *</label>
+                                    <label for="country">Ville*</label>
                                     <select class="wide w-100" id="country" name="pays">
                                         <option value="Choose..." data-display="Select">Choisir...</option>
-                                        <option value="France">France</option>
-                                        <option value="Belgique">Belgique</option>
-                                        <option value="Suisse">Suisse</option>
+                                        <option value="Hanoi">Hanoi</option>
+                                        <option value="Dà Nang">Dà Nang</option>
+                                        <option value="Nha Trang ">Nha Trang</option>
+                                        <option value="Ninh Binh ">Ninh Binh</option>
+                                        <option value="Sa Pa ">Sa Pa </option>
                                     </select>
                                     <div class="invalid-feedback"> Svp, choisissez un pays valide. </div>
                                 </div>
@@ -102,12 +107,12 @@
                                 </div>
                             </div>
                             <hr class="mb-4">
-                            <div style="text-align: center;">
+                            <!-- <div style="text-align: center;">
                                 <img src="{% static 'images/payment-icon/1.png' %}" alt="">
                                 <img src="{% static 'images/payment-icon/2.png' %}" alt="">
                                 <img src="{% static 'images/payment-icon/3.png' %}" alt="">
                                 <img src="{% static 'images/payment-icon/5.png' %}" alt="">
-                            </div>
+                            </div> -->
                         </form>
                     </div>
                 </div>

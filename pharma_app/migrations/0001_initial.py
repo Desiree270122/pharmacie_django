@@ -147,7 +147,7 @@ class Migration(migrations.Migration):
                     "devise",
                     models.CharField(
                         blank=True,
-                        choices=[("euro", "Є"), ("dollar", "$")],
+                        choices=[("dong", "VND")],
                         max_length=255,
                         null=True,
                     ),
