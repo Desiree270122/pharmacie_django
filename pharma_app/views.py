@@ -47,6 +47,7 @@ def liste_articles(request):
     
 def template_accueil(request):
     articles = Article.objects.all()
+    print(articles)
     articles_etiq_value = []
     for article in articles:
         etiquettes_value = [etiquette.value for etiquette in article.etiquette.all()]
@@ -145,8 +146,8 @@ def creer_compte(request):
                 return redirect('login')
             except Exception as e:
                 print(e)
-                msg = settings.ERROR_COULD_NOT_SEND_VERIF_EMAIL
-                messages.error(request, msg)
+                # msg = settings.ERROR_COULD_NOT_SEND_VERIF_EMAIL
+                # messages.error(request, msg)
 
             return redirect('accueil')
 

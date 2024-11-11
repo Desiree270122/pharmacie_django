@@ -117,7 +117,7 @@ class Etiquette(models.Model):
 
 class Article(models.Model):
     choix_categorie = (("top-featured","Alimentaire"),("best-seller","Médicamenteux"))
-    choix_devise = (("euro","Є"),("dollar","$"))
+    choix_devise = (("euro","Є"),("vientam dong","VND"))
     designation = models.CharField(max_length=255, null=True, blank=True)
     description = models.TextField(null=True, blank=True)
     image = models.FileField(null=True, blank=True, upload_to='images/')
