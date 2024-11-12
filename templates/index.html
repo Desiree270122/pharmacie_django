@@ -169,7 +169,7 @@
                     <div class="products-single fix">
                         <div class="box-img-hover">
                             <div class="type-lb">
-                                <p class="sale">Sale</p>
+                                <p class="sale">En Stock</p>
                             </div>
                             <img src="{{ article_etiq_value.article.image.url }}" class="img-fluid" alt="Image">
                             <div class="mask-icon">
@@ -182,11 +182,7 @@
                         </div>
                         <div class="why-text">
                             <h4>{{article_etiq_value.article.designation}}</h4>
-                            {% if article_etiq_value.article.devise == 'dollar' %}
-                                <h5> $ {{article_etiq_value.article.prix}}</h5>
-                            {% elif article_etiq_value.article.devise == 'euro' %}
-                                <h5> Є {{article_etiq_value.article.prix}}</h5>
-                            {% endif %}
+                                <h5> VND {{article_etiq_value.article.prix}}</h5>
                             <!-- <label class="lbl_feedback{{article_etiq_value.article.id}}" id="lbl_feedback"></label> -->
                             {% if article_etiq_value.article.lien_paiement  %}
                                 <a class="a-commander" style="" href="{{article_etiq_value.article.lien_paiement}}">Commander directement</a>
@@ -287,8 +283,8 @@
         function add_to_cart()
         {
             const qte = 1;
-            const pk = $(this).attr('pk');
-            $.ajax(
+            const pk = VND(this).attr('pk');
+            VND.ajax(
             {
                 type:"POST",
                 url: "add_to_cart/" + pk,
@@ -298,20 +294,20 @@
                 {
                     if(response.status == 1)
                     {
-                        $('.lbl_feedback').html("Produit ajouté");
-                        $('.lbl_feedback').css({"color":"green"});
-                        $('.lbl_feedback').show(500);
+                        VND('.lbl_feedback').html("Produit ajouté");
+                        VND('.lbl_feedback').css({"color":"green"});
+                        VND('.lbl_feedback').show(500);
                         setTimeout(function(){
-                            $('.lbl_feedback'+pk).hide(500);
+                            VND('.lbl_feedback'+pk).hide(500);
                         },3000)
                     }
                 }
             });
         }
-        $(".add_to_cart").click(add_to_cart);
+        VND(".add_to_cart").click(add_to_cart);
 
         setInterval(function(){
-            $.ajax(
+            VND.ajax(
             {
                 type:"GET",
                 url: "{% url 'count_panier' %}",
@@ -321,7 +317,7 @@
                 {
                     if(response.status == 1)
                     {
-                        $('.lbl_count').html(response.count);
+                        VND('.lbl_count').html(response.count);
                     }
                 }
             });

@@ -116,12 +116,13 @@ class Etiquette(models.Model):
         return f"{self.nom}"
 
 class Article(models.Model):
-    choix_categorie = (("top-featured","Alimentaire"),("best-seller","Médicamenteux"))
-    choix_devise = (("euro","Є"),("dollar","$"))
+    choix_categorie = (("top-featured","Produits"),("best-seller","Médicaments"))
+    choix_devise = (("dong","VND"),("dollar","$"))
     designation = models.CharField(max_length=255, null=True, blank=True)
     description = models.TextField(null=True, blank=True)
     image = models.FileField(null=True, blank=True, upload_to='images/')
     prix = models.FloatField(null=True, blank=True)
+    quantite_en_stock = models.PositiveIntegerField(default=0)  # Ajout de la quantité en stock
     devise = models.CharField(choices=choix_devise, max_length=255, null=True, blank=True)
     etiquette = models.ManyToManyField(Etiquette)
     lien_paiement = models.CharField(max_length=255, null=True, blank=True)

@@ -24,7 +24,7 @@ from .utils import generate_username
 # Create your views here.
 
 def liste_articles(request):
-    print("kjuyhyguh")
+    print(" ")
     pk = request.GET.get('pk')
     etiq = request.GET.get('etiq')
     panier = []
@@ -41,7 +41,7 @@ def liste_articles(request):
         if etiq:
             articles = Article.objects.filter(etiquette__in = [etiq])
         else:
-            print("xngygbhjuh")
+            print(" ")
             articles = Article.objects.all()
             for article in articles:
                 etiquettes_value = [etiquette.value for etiquette in article.etiquette.all()]

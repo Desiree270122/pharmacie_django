@@ -5,15 +5,14 @@ from .models import *
 from django.utils.html import mark_safe
 
 class ArticleAdmin(admin.ModelAdmin):
-    list_display = ('designation', 'image_tag', 'prix_vente', 'etiquettes', 'active', 'create_date')
+    list_display = ('designation', 'image_tag', 'prix_vente', 'etiquettes', 'quantite_en_stock' , 'active' , 'create_date')
     def image_tag(self, obj):
         return mark_safe(f'<img src="{obj.image.url}" width="150" />')
     
     def prix_vente(self, obj):
-        if obj.devise=='dollar':
-            return f"{obj.prix} $"
-        elif obj.devise=='euro':
-            return f"{obj.prix} Є"
+        if obj.devise=='dong':
+            return f"{obj.prix} VND"
+
     
     def etiquettes(self, obj):
         return list(obj.etiquette.all())

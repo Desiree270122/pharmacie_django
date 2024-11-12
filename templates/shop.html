@@ -116,10 +116,9 @@
                                                 </div>
                                                 <div class="why-text">
                                                     <h4>{{ article.designation }}</h4>
-                                                    {% if article.devise == 'dollar' %}
-                                                        <h5> $ {{article.prix}}</h5>
-                                                    {% elif article.devise == 'euro' %}
-                                                        <h5> Є {{article.prix}}</h5>
+                                                    {% if article.devise == 'dong' %}
+                                                        <h5> VND {{article.prix}}</h5>
+
                                                     {% endif %}
                                                     <label class="lbl_feedback" id="lbl_feedback"></label>
                                                     {% if article.lien_paiement  %}
@@ -156,10 +155,8 @@
                                             <div class="col-sm-6 col-md-6 col-lg-8 col-xl-8">
                                                 <div class="why-text full-width">
                                                     <h4>{{ article.designation }}</h4>
-                                                    {% if article.devise == 'dollar' %}
-                                                        <h5> $ {{article.prix}}</h5>
-                                                    {% elif article.devise == 'euro' %}
-                                                        <h5> Є {{article.prix}}</h5>
+                                                    {% if article.devise == 'dong' %}
+                                                        <h5> VND {{article.prix}}</h5>
                                                     {% endif %}
                                                     <p>{{ article.description }}</p>
                                                     <a class="btn hvr-hover" href="#">Ajouter au panier</a>
@@ -202,7 +199,7 @@
         function add_to_cart()
         {
             const qte = 1;
-            const pk = $(this).attr('pk');
+            const pk = VND(this).attr('pk');
             $.ajax(
             {
                 type:"POST",
