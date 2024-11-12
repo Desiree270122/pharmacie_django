@@ -25,7 +25,8 @@ from django.conf import settings
 
 
 urlpatterns = [
-    path('', template_accueil, name='accueil'),
+    path('', se_connecter, name='login'),
+    path('acceuil', template_accueil, name='accueil'),
     path('contact', TemplateView.as_view(template_name='contact-us.html'), name='contact'),
     path('services', template_apropos, name='services'),
     # path('shop', TemplateView.as_view(template_name='shop.html'), name='shop'),
@@ -33,7 +34,7 @@ urlpatterns = [
     path('panier', template_panier, name='panier'),
     path('compte', TemplateView.as_view(template_name='checkout.html'), name='compte'),
     path('compte', TemplateView.as_view(template_name='checkout.html'), name='compte'),
-    path('login', se_connecter, name='login'),
+
     #path('signin', TemplateView.as_view(template_name='creer_compte.html'), name='signin'),
     path('signin/', creer_compte, name='signin'),
     #path('se_connecter', se_connecter, name='se_connecter'),
