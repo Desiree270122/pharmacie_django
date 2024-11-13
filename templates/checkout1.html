@@ -129,14 +129,13 @@
                                         <div class="media mb-2 border-bottom">
                                             <div class="media-body"> <a href="detail.html"> {{pan.article.designation}}</a>
                                                 <div class="small text-muted" style="color:#000;">
-                                                    Prix: Є{{pan.article.prix}} <span class="mx-2">|</span> 
+                                                    Prix: VND {{pan.article.prix}} <span class="mx-2">|</span>
                                                     Qte: {{pan.qte}} <span class="mx-2">|</span> 
-                                                    Sous total: Є { % widthratio  pan.article.prix 1 pan.qte %}
+                                                    Sous total: VND { % widthratio  pan.article.prix 1 pan.qte %}
                                                 </div>
                                             </div>
                                         </div>
                                     {% endfor %}
-                                    
                                 </div>
                             </div>
                         </div>
@@ -164,7 +163,16 @@
                                     <h5>Grand Total</h5>
                                     <div class="ml-auto h5"> VND {{gd_total}} </div>
                                 </div>
-                                <hr> </div>
+                                <hr>
+
+                                <form action="{% url 'confpaye' %}" method="post">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn_confirm">Confirmer le paiement</button>
+                                </form>
+
+                            </div>
+
+
                         </div>
                         <div class="col-12 d-flex shopping-box"> 
                             <form action="{% url 'checkout' %}" method="post">
@@ -210,18 +218,7 @@
     <script src="{% static 'js/contact-form-script.js' %}"></script>
     <script src="{% static 'js/custom.js' %}"></script>
     
-    <script type="text/javascript">
-        $(document).ready(function() {
-            $("button").html('Lancer la commande');
-            $("button").addClass('hvr-hover');
-            $("button").addClass('btn');
-            $("button").addClass('ml-auto');
-            $("button").removeClass('stripe-button-el');
-            $("button").css({"color":"#fff","padding":"11px", "border-radius":"0px","font-family": "Dosis, sans-serif"});
-            
-        });
-          
-    </script>
+
 </body>
 
 </html>

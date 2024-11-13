@@ -12,7 +12,7 @@ from django.urls import reverse
 
 from django.shortcuts import render, redirect
 from django.views import View
-
+from django.contrib import messages
 
 
 from .forms import RegisterForm, LoginForm
@@ -294,6 +294,7 @@ import stripe
 stripe.api_key = settings.STRIPE_SECRET_KEY
 
 def checkout(request):
+    print("je suis venu ici")
     paniers = []
     amount = 0 if not calculate_cart_total(request.user)  else calculate_cart_total(request.user)
     tva = amount*17/100
@@ -301,15 +302,15 @@ def checkout(request):
     if request.user and not request.user.is_anonymous :
         paniers = Panier.objects.filter(user=request.user)
     if request.method == 'POST':
-        token = request.POST.get('stripeToken')
+        # token = request.POST.get('stripeToken')
          
         try:
-            charge = stripe.Charge.create(
+            """charge = stripe.Charge.create(
                 amount=gd_total*100,
                 currency='eur',
                 description='Achat sur votre site e-commerce',
                 source=token,
-            )
+            )"""
             
             commande, created = Commande.objects.get_or_create(
                 pays = request.POST.get('pays'),
@@ -327,9 +328,11 @@ def checkout(request):
                 )
                 panier.delete()
             
-        except stripe.error.CardError as e:
+        except Exception as e:
+            print('erreur lors du traitement')
+            print(e)
             # Gestion des erreurs liées à la carte
-            return render(request, 'error.html', {'error': e.error.message})
+            #return render(request, 'error.html', {'error': e.message})
 
         return render(request, 'success.html')
     STRIPE_PUBLIC_KEY = settings.STRIPE_PUBLIC_KEY 
@@ -341,3 +344,44 @@ def calculate_cart_total(user):
     for panier in paniers:
         somme += panier.article.prix * panier.qte
     return somme
+
+
+
+
+
+class PaymentView(View):
+    def get(self, request):
+        # Logique de paiement ici (intégration Stripe, PayPal, etc.)
+        # Simuler un paiement réussi
+        # Si le paiement est réussi
+        messages.success(request, "Paiement effectué avec succès.")
+        return redirect('success_page')
+
+
+
+
+def confirmation_order(request):
+    total = calculate_cart_total(request.user)
+
+    """if request.method == "POST":
+        return redirect('order_complete')
+    else:
+        pass"""
+
+    context = {
+        'total': total,
+        'stripe_public_key': 'VotreCléPubliqueStripe'
+    }
+    return render(request, 'confpaye.html', context)
+
+
+def order_complete(request):
+    total = calculate_cart_total(request.user)
+
+
+
+    context = {
+        'total': total,
+        'stripe_public_key': 'VotreCléPubliqueStripe'
+    }
+    return render(request, 'order_complete.html', context)

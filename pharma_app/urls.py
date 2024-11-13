@@ -16,9 +16,10 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from setuptools.extern import names
+
 from .views import *
 from django.views.generic import TemplateView
-	
 from django.conf.urls.static import static
 from django.conf import settings
 
@@ -44,5 +45,10 @@ urlpatterns = [
     path('articles_panier', liste_articles_panier, name='articles_panier'),
     path('message_contact', message_contact, name='message_contact'),
     path('checkout', checkout, name='checkout'),
+    path('confpaye/', confirmation_order, name='confpaye'),
+    path('order_complete', order_complete, name='order_complete'),
 ] 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+
+
