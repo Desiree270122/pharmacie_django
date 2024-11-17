@@ -116,8 +116,8 @@
                                                 </div>
                                                 <div class="why-text">
                                                     <h4>{{ article.designation }}</h4>
-                                                    {% if article.devise == 'dong' %}
-                                                        <h5> VND {{article.prix}}</h5>
+                                                    {% if article.devise == 'VND' %}
+                                                        <h5>  {{article.prix}} VND</h5>
 
                                                     {% endif %}
                                                     <label class="lbl_feedback" id="lbl_feedback"></label>
@@ -155,8 +155,8 @@
                                             <div class="col-sm-6 col-md-6 col-lg-8 col-xl-8">
                                                 <div class="why-text full-width">
                                                     <h4>{{ article.designation }}</h4>
-                                                    {% if article.devise == 'dong' %}
-                                                        <h5> VND {{article.prix}}</h5>
+                                                    {% if article.devise == 'VND' %}
+                                                        <h5>  {{article.prix}} VND</h5>
                                                     {% endif %}
                                                     <p>{{ article.description }}</p>
                                                     <a class="btn hvr-hover" href="#">Ajouter au panier</a>

@@ -307,7 +307,7 @@ def checkout(request):
         try:
             """charge = stripe.Charge.create(
                 amount=gd_total*100,
-                currency='eur',
+                currency='vnd',
                 description='Achat sur votre site e-commerce',
                 source=token,
             )"""
@@ -361,17 +361,19 @@ class PaymentView(View):
 
 
 def confirmation_order(request):
-    user = request.user
-    total = calculate_cart_total(request.user)
+    if not request.user.is_authenticated:
+        # Rediriger l'utilisateur vers la page de connexion ou autre
+        return redirect('login')
 
-    """if request.method == "POST":
-        return redirect('order_complete')
-    else:
-        pass"""
+    paniers = Panier.objects.filter(user=request.user)  # Obtenez le panier pour l'utilisateur connecté
+    total = sum(item.article.prix * item.qte for item in paniers)  # Calculez le total
 
+    # Si vous avez des données supplémentaires à passer, ajoutez-les ici
     context = {
+        'panier': paniers,
         'total': total,
-        'stripe_public_key': 'VotreCléPubliqueStripe'
+        'stripe_public_key': 'VotreCléPubliqueStripe',
+        'user_info': request.user  # Assurez-vous que le modèle utilisateur contient les informations nécessaires
     }
     return render(request, 'confpaye.html', context)
 

@@ -1,51 +1,44 @@
-{% load static %}
 <!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Confirmation de Paiement</title>
-    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="path_to_your_css/bootstrap.min.css">
+    <style>
+        body {
+            padding: 20px;
+        }
+    </style>
 </head>
 <body>
+    {% load extra_filters %}
     <div class="container">
         <h1>Confirmation de Paiement</h1>
-        <div class="cart-box-main">
-            <div class="row">
-                <div class="col-md-6">
-                <h3>Adresse de livraison</h3>
-                <p>Adresse : {{ adresse }}</p>
-                <p>Ville : {{ ville }}</p>
-                <p>Région : {{ region }}</p>
-                <p>Code postal : {{ code_postal }}</p>
-            </div>
-                <div class="col-lg-8">
-                    <h3>Votre Panier</h3>
-                    <div class="p-2 bg-light">
-                        {% for item in panier %}
-                        <div class="media mb-2 border-bottom">
-                            <div class="media-body">
-                                <h6>{{ item.product.name }}</h6>
-                                Prix unitaire: {{ item.product.price }}<br>
-                                Quantité: {{ item.quantity }}<br>
-                                Sous-total: {{ item.get_total }}
-                            </div>
-                        </div>
-                        {% endfor %}
-                    </div>
-                    <div class="order-box">
-                        <div class="d-flex">
-                            <h4>Total</h4>
-                            <div class="ml-auto font-weight-bold"> {{ total }} </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4">
-                    <a href="{% url 'order_complete' %}"><button type="submit">Finaliser </button></a>
-                </div>
-            </div>
+        <h2>Adresse de Livraison</h2>
+        <p>Nom: {{ user_info.first_name }} {{ user_info.last_name }}</p>
+        <p>Email: {{ user_info.email }}</p>
+        <p>Téléphone: {{ user_info.phone }}</p>
+
+        <h2>Votre Panier</h2>
+        {% for item in panier %}
+        <div>
+            <p>Article: {{ item.article.designation }}</p>
+            <p>Prix unitaire: {{ item.article.prix }} €</p>
+            <p>Quantité: {{ item.qte }}</p>
+            <p>Total: {{ item.article.prix|multiply:item.qte }} €</p>
         </div>
+        {% endfor %}
+
+        <h3>Total à payer: {{ total }} €</h3>
+
+        <!-- Bouton de paiement -->
+        <form action="{% url 'process_payment' %}" method="post">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-primary">Confirmer le paiement</button>
+        </form>
     </div>
-    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    <script src="path_to_your_js/jquery-3.5.1.min.js"></script>
+    <script src="path_to_your_js/bootstrap.min.js"></script>
 </body>
 </html>
