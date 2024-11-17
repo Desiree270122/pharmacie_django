@@ -361,6 +361,7 @@ class PaymentView(View):
 
 
 def confirmation_order(request):
+    user = request.user
     total = calculate_cart_total(request.user)
 
     """if request.method == "POST":
