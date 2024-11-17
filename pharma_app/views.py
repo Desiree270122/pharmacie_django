@@ -217,9 +217,49 @@ def verify_email(user, request):
     )
 
 
-@login_required(login_url='login')
+# @login_required(login_url='login')
 def ajouter_au_panier(request, pk):
+    if request.user and not request.user.is_anonymous:
+        # qte = int(request.POST.get('qte'))
+        qte =1
+        article = Article.objects.get(id=pk)
+
+        try:
+            panier = Panier.objects.get(user=request.user, article=article)
+            print(" mis a jour ")
+        # if request.POST.get('update'):
+        #     panier = Panier.objects.filter(pk=pk).first()
+            panier.qte += qte
+            panier.save()
+            status = 1
+
+            return JsonResponse({"status": status})
+        except:
+            print("creation du panier ")
+            # article = Article.objects.filter(pk=pk).first()
+            # if article:
+            # panier = Panier.objects.filter(user=request.user, article=article).first()
+            Panier.objects.create(user=request.user, article=article, qte=qte)
+            # if panier:
+            #     panier.qte += qte
+            #     panier.save()
+            # else:
+            #     Panier.objects.create(user=request.user, article=article, qte=qte)
+            status = 1
+
+            return JsonResponse({"status": status})
+    else:
+        print("login requred")
+        # return JsonResponse({"status": "Failed"})
+        return redirect('login')
+
     status = 0
+    article = Article.objects.get(id=pk)
+    panier = Panier.objects.get(user=request.user, article=article)
+    if panier:
+        # panier.qte += 1
+        # pani
+        pass
     if request.method == 'POST':
         if request.user and not request.user.is_anonymous:
             qte = int(request.POST.get('qte'))
@@ -245,6 +285,51 @@ def ajouter_au_panier(request, pk):
         status = 1
         return JsonResponse({"status":status})
     return JsonResponse({"status":status})
+
+
+def delete_from_cart(request, pk):
+    if request.user and not request.user.is_anonymous:
+        # qte = int(request.POST.get('qte'))
+        print(pk)
+        qte =1
+        article = Article.objects.get(id=pk)
+
+        try:
+
+            panier = Panier.objects.filter(user=request.user, article=article)
+            print(" suppression ")
+        # if request.POST.get('update'):
+        #     if panier.length >
+            panier = panier.first()
+            if panier.qte > 1:
+                panier.qte -= qte
+                panier.save()
+                status = 1
+            else:
+                panier.delete()
+                panier.qte = 0
+            status = 1
+
+            return JsonResponse({"status": status})
+        except Exception as e:
+            print("erreur lors de la suppression  ")
+            print(e)
+            # article = Article.objects.filter(pk=pk).first()
+            # if article:
+            # panier = Panier.objects.filter(user=request.user, article=article).first()
+            # Panier.objects.create(user=request.user, article=article, qte=qte)
+            # if panier:
+            #     panier.qte += qte
+            #     panier.save()
+            # else:
+            #     Panier.objects.create(user=request.user, article=article, qte=qte)
+            status = 0
+
+            return JsonResponse({"status": status})
+    else:
+        print("login requred")
+        # return JsonResponse({"status": "Failed"})
+        return redirect('login')
 
 def count_panier(request):
     status = 0
@@ -294,9 +379,12 @@ import stripe
 stripe.api_key = settings.STRIPE_SECRET_KEY
 
 def checkout(request):
+#    if
     print("je suis venu ici")
     paniers = []
+    print("1")
     amount = 0 if not calculate_cart_total(request.user)  else calculate_cart_total(request.user)
+    print("2")
     tva = amount*17/100
     gd_total = amount + tva
     if request.user and not request.user.is_anonymous :
@@ -342,10 +430,15 @@ def calculate_cart_total(user):
     paniers = Panier.objects.filter(user=user)
     somme = 0
     for panier in paniers:
+        print(panier)
         somme += panier.article.prix * panier.qte
     return somme
 
+def process_payment(request):
+    context={
 
+    }
+    return render(request,"order_complete.html",context)
 
 
 

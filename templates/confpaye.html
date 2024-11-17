@@ -1,3 +1,5 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -12,7 +14,7 @@
     </style>
 </head>
 <body>
-    {% load extra_filters %}
+
     <div class="container">
         <h1>Confirmation de Paiement</h1>
         <h2>Adresse de Livraison</h2>
@@ -26,7 +28,7 @@
             <p>Article: {{ item.article.designation }}</p>
             <p>Prix unitaire: {{ item.article.prix }} €</p>
             <p>Quantité: {{ item.qte }}</p>
-            <p>Total: {{ item.article.prix|multiply:item.qte }} €</p>
+
         </div>
         {% endfor %}
 
@@ -35,7 +37,7 @@
         <!-- Bouton de paiement -->
         <form action="{% url 'process_payment' %}" method="post">
             {% csrf_token %}
-            <button type="submit" class="btn btn-primary">Confirmer le paiement</button>
+            <button type="submit" class="btn btn-primary">Terminer</button>
         </form>
     </div>
     <script src="path_to_your_js/jquery-3.5.1.min.js"></script>

@@ -111,7 +111,7 @@
                                                         <ul>
                                                             <li><a href="{% url 'shop' %}?pk={{article.id}}" data-toggle="tooltip" data-placement="right" title="Voir détail"><i class="fas fa-eye"></i></a></li>
                                                         </ul>
-                                                        <a  class="cart add_to_cart" pk="{{article.id}}" style="cursor:pointer">Ajouter au panier</a>
+                                                        <a  class="cart add_to_cart" href="{% url 'add_to_cart' article.id %}" pk="{{article.id}}" style="cursor:pointer">Ajouter au panier</a>
                                                     </div>
                                                 </div>
                                                 <div class="why-text">

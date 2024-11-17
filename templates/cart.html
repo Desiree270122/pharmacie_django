@@ -202,8 +202,8 @@
                                         <p>$ ${paniers[i].qte * paniers[i].article.prix}</p>
                                     </td>
                                     <td class="remove-pr">
-                                        <label pk="${paniers[i].id}" class="delete_to_cart">
-                                            <i class="fas fa-times"></i>
+                                        <label pk="${paniers[i].id}" class="delete_to_cart" onclick="delete_to_cart(${paniers[i].article.id})">
+                                            <i class="fas fa-times"></i>Delete
                                         </label>
                                     </td>
                                 </tr>`;
@@ -222,7 +222,7 @@
             $.ajax(
             {
                 type:"GET",
-                url: "add_to_cart/" + pk,
+                url: "delete_from_cart/" + pk,
                 dataType:"json",
                 data:{csrfmiddlewaretoken:"{{csrf_token}}"},
                 success: function(response) 
@@ -297,7 +297,7 @@
                         $('.lbl_feedback').show(500);
                         setTimeout(function(){
                             $('.lbl_feedback').hide(500);
-                        },3000)
+                        },500)
                     }
                 }
             });

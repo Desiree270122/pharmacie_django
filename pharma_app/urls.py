@@ -16,7 +16,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from setuptools.extern import names
+# from setuptools.extern import names
 
 from .views import *
 from django.views.generic import TemplateView
@@ -40,13 +40,16 @@ urlpatterns = [
     path('signin/', creer_compte, name='signin'),
     #path('se_connecter', se_connecter, name='se_connecter'),
     path('logout', se_deconnecter, name='logout'),
-    path('add_to_cart/<pk>', ajouter_au_panier, name='add_to_cart'),
+    path('add_to_cart/<int:pk>', ajouter_au_panier, name='add_to_cart'),
+    path('delete_from_cart/<int:pk>', delete_from_cart, name='delete_from_cart'),
     path('count_panier', count_panier, name='count_panier'),
     path('articles_panier', liste_articles_panier, name='articles_panier'),
     path('message_contact', message_contact, name='message_contact'),
     path('checkout', checkout, name='checkout'),
     path('confpaye/', confirmation_order, name='confpaye'),
     path('order_complete', order_complete, name='order_complete'),
+    path('process_payment', process_payment, name='process_payment'),
+
 ] 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
