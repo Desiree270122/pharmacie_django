@@ -48,13 +48,14 @@
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="navbar-menu">
                 <ul class="nav navbar-nav ml-auto" data-in="fadeInDown" data-out="fadeOutUp">
-                    <li class="nav-item active"><a class="nav-link" href="{% url 'accueil' %}">Accueil</a></li>
-                    <li><a href="{% url 'shop' %}" class="nav-link">Articles</a></li>
-                    <li><a href="{% url 'panier' %}" class="nav-link">Panier<span class="badge lbl_count" style="font-size:13px;color:red;position:relative;bottom:10px">{{panier.count}}</span></a></li>
+                    <li class="nav-item {% if 'accueil' in segment %} active {% endif %}"><a class="nav-link" href="{% url 'accueil' %}">Accueil</a></li>
+                    <li class="nav-item {% if 'shop' in segment %} active {% endif %}"><a href="{% url 'shop' %}" class="nav-link">Articles</a></li>
+                    <li class="nav-item {% if 'panier' in segment %} active {% endif %}"><a href="{% url 'panier' %}" class="nav-link">Panier<span class="badge lbl_count" style="font-size:13px;color:red;position:relative;bottom:10px">{{panier.count}}</span></a></li>
                     <!--li class="nav-item"><a class="nav-link" href="gallery.html">Gallery</a></li-->
                     <li class="nav-item"><a class="nav-link" href="{% url 'contact' %}">Contact</a></li>
                 </ul>
             </div>
+
             <!-- /.navbar-collapse -->
 
             <!-- Start Atribute Navigation -->

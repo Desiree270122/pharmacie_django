@@ -176,7 +176,7 @@
                                 <ul>
                                     <li><a href="{% url 'shop' %}?pk={{article_etiq_value.article.id}}" data-toggle="tooltip" data-placement="right" title="View"><i class="fas fa-eye"></i></a></li>
                                 </ul>
-                                <a class="cart add_to_cart" style="cursor:pointer" pk="{{article_etiq_value.article.id}}">Ajouter au panier</a><br>
+                                <a class="cart add_to_cart" href="{% url 'add_to_cart' article_etiq_value.article.id %}" style="cursor:pointer" pk="{{article_etiq_value.article.id}}">Ajouter au panier</a><br>
                                 
                             </div>
                         </div>

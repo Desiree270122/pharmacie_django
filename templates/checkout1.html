@@ -175,19 +175,19 @@
 
                         </div>
                         <div class="col-12 d-flex shopping-box"> 
-                            <form action="{% url 'checkout' %}" method="post">
-                                {% csrf_token %}
-                                <script
-                                  src="https://checkout.stripe.com/checkout.js" class="stripe-button"
-                                  data-key="{{ STRIPE_PUBLIC_KEY }}"
-                                  data-amount="{{montant}}"
-                                  data-name="PHARMA-Services"
-                                  data-description="Paiement sur PHARMA-Services"
-                                  data-image="https://pharma-services.com/static/images/logox.png"
-                                  data-locale="auto"
-                                  data-currency="VND">
-                                </script>
-                            </form>
+<!--                            <form action="{% url 'checkout' %}" method="post">-->
+<!--                                {% csrf_token %}-->
+<!--                                <script-->
+<!--                                  src="https://checkout.stripe.com/checkout.js" class="stripe-button"-->
+<!--                                  data-key="{{ STRIPE_PUBLIC_KEY }}"-->
+<!--                                  data-amount="{{montant}}"-->
+<!--                                  data-name="PHARMA-Services"-->
+<!--                                  data-description="Paiement sur PHARMA-Services"-->
+<!--                                  data-image="https://pharma-services.com/static/images/logox.png"-->
+<!--                                  data-locale="auto"-->
+<!--                                  data-currency="VND">-->
+<!--                                </script>-->
+<!--                            </form>-->
                         </div>
                     </div>
                 </div>

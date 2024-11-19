@@ -35,7 +35,13 @@ def liste_articles(request):
     if pk:
         article = Article.objects.filter(pk=pk).first()
         articles = Article.objects.all()
-        return render(request, "shop-detail.html", {"article":article, "articles":articles, "panier":panier})
+        context = {
+            "segment": "shop",
+            "article": article,
+            "articles": articles,
+            "panier": panier
+        }
+        return render(request, "shop-detail.html", context)
     else:
         etiquettes = Etiquette.objects.all()
         if etiq:
@@ -48,7 +54,15 @@ def liste_articles(request):
                 etiquettes_value_str = ' '.join(etiquettes_value)
                 articles_etiq_value.append({"article":article, "etiquettes_value_str":etiquettes_value_str})
         # print("=======================", articles, articles_etiq_value)
-        return render(request, "shop.html", {"articles":articles, "articles_etiq":articles_etiq_value, "panier":panier, "etiquettes":etiquettes, "etiq":etiq})
+        context = {
+            "segment": "shop",
+            "articles": articles,
+            "articles_etiq": articles_etiq_value,
+            "panier": panier,
+            "etiquettes": etiquettes,
+            "etiq": etiq
+        }
+        return render(request, "shop.html", context)
     
 def template_accueil(request):
     articles = Article.objects.all()
@@ -67,7 +81,8 @@ def template_accueil(request):
         "articles":articles,
         "articles_etiq_value":articles_etiq_value,
         "panier":panier,
-        "etiquettes":etiquettes
+        "etiquettes":etiquettes,
+        "segment": "accueil",
     }
     return render(request, "index.html", context)
 
@@ -76,7 +91,13 @@ def template_panier(request):
     articles = Article.objects.all()
     if request.user and not request.user.is_anonymous:
         panier = Panier.objects.filter(user=request.user)
-    return render(request, "cart.html", {"panier":panier, "articles":articles})
+
+    context = {
+        'segment': 'panier',
+        "panier": panier,
+        "articles": articles
+    }
+    return render(request, "cart.html", context)
 
 def template_apropos(request):
     articles = Article.objects.all()
@@ -220,7 +241,8 @@ def verify_email(user, request):
 # @login_required(login_url='login')
 def ajouter_au_panier(request, pk):
     if request.user and not request.user.is_anonymous:
-        # qte = int(request.POST.get('qte'))
+        referer = request.META.get('HTTP_REFERER')
+
         qte =1
         article = Article.objects.get(id=pk)
 
@@ -232,8 +254,10 @@ def ajouter_au_panier(request, pk):
             panier.qte += qte
             panier.save()
             status = 1
-
-            return JsonResponse({"status": status})
+            if referer:
+                return redirect(referer)
+            else:
+                return JsonResponse({"status": status})
         except:
             print("creation du panier ")
             # article = Article.objects.filter(pk=pk).first()
@@ -246,45 +270,56 @@ def ajouter_au_panier(request, pk):
             # else:
             #     Panier.objects.create(user=request.user, article=article, qte=qte)
             status = 1
-
-            return JsonResponse({"status": status})
+            if referer:
+                return redirect(referer)
+            else:
+                return JsonResponse({"status": status})
     else:
         print("login requred")
         # return JsonResponse({"status": "Failed"})
         return redirect('login')
 
-    status = 0
-    article = Article.objects.get(id=pk)
-    panier = Panier.objects.get(user=request.user, article=article)
-    if panier:
-        # panier.qte += 1
-        # pani
-        pass
-    if request.method == 'POST':
-        if request.user and not request.user.is_anonymous:
-            qte = int(request.POST.get('qte'))
-            if request.POST.get('update'):
-                panier = Panier.objects.filter(pk = pk).first()
-                panier.qte = qte
-                panier.save()
-                status = 1
-            else:
-                article = Article.objects.filter(pk=pk).first()
-                if article:
-                    panier = Panier.objects.filter(user=request.user, article=article).first()
-                    if panier:
-                        panier.qte += qte
-                        panier.save()
-                    else:
-                        Panier.objects.create(user=request.user, article=article, qte=qte)
-                status = 1
-                return JsonResponse({"status":status})
-        return JsonResponse({"status":status})
-    elif request.method == 'GET':
-        panier = Panier.objects.filter(pk=pk).delete()
-        status = 1
-        return JsonResponse({"status":status})
-    return JsonResponse({"status":status})
+    # status = 0
+    # article = Article.objects.get(id=pk)
+    # panier = Panier.objects.get(user=request.user, article=article)
+    # if panier:
+    #     # panier.qte += 1
+    #     # pani
+    #     pass
+    # if request.method == 'POST':
+    #     if request.user and not request.user.is_anonymous:
+    #         qte = int(request.POST.get('qte'))
+    #         if request.POST.get('update'):
+    #             panier = Panier.objects.filter(pk = pk).first()
+    #             panier.qte = qte
+    #             panier.save()
+    #             status = 1
+    #         else:
+    #             article = Article.objects.filter(pk=pk).first()
+    #             if article:
+    #                 panier = Panier.objects.filter(user=request.user, article=article).first()
+    #                 if panier:
+    #                     panier.qte += qte
+    #                     panier.save()
+    #                 else:
+    #                     Panier.objects.create(user=request.user, article=article, qte=qte)
+    #             status = 1
+    #             referer = request.META.get('HTTP_REFERER')
+    #             if referer:
+    #                 return redirect(referer)
+    #             else:
+    #                  return JsonResponse({"status":status})
+    #
+    #     return JsonResponse({"status":status})
+    # elif request.method == 'GET':
+    #     panier = Panier.objects.filter(pk=pk).delete()
+    #     status = 1
+    #     if referer:
+    #         return redirect(referer)
+    #     else:
+    #         return JsonResponse({"status": status})
+    # return JsonResponse({"status":status})
+
 
 
 def delete_from_cart(request, pk):
@@ -423,7 +458,16 @@ def checkout(request):
             #return render(request, 'error.html', {'error': e.message})
 
         return render(request, 'success.html')
-    STRIPE_PUBLIC_KEY = settings.STRIPE_PUBLIC_KEY 
+    STRIPE_PUBLIC_KEY = settings.STRIPE_PUBLIC_KEY
+    context ={
+        'segment': 'panier',
+        "STRIPE_PUBLIC_KEY":STRIPE_PUBLIC_KEY,
+        "panier":paniers,
+        "amount":amount,
+        "tva":tva,
+        "gd_total":gd_total,
+        "montant":gd_total*100
+    }
     return render(request, 'checkout1.html', {"STRIPE_PUBLIC_KEY":STRIPE_PUBLIC_KEY, "panier":paniers, "amount":amount, "tva":tva, "gd_total":gd_total, "montant":gd_total*100})
 
 def calculate_cart_total(user):
