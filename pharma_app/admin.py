@@ -31,6 +31,9 @@ class EtiquetteAdmin(admin.ModelAdmin):
 
 class MessageAdmin(admin.ModelAdmin):
     list_display = ('noms_complet', 'email', 'telephone', 'message')
+
+
+
     
 admin.site.register(CustomUser, CustomUserAdmin)
 admin.site.register(Article, ArticleAdmin)

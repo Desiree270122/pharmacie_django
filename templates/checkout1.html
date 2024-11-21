@@ -75,7 +75,8 @@
                         <div class="title-left">
                             <h3>Adresse de livraison</h3>
                         </div>
-                        <form class="needs-validation" novalidate>
+                        <form class="needs-validation" novalidate action="" method="post">
+                            {% csrf_token %}
                             <div class="mb-3">
                                 <label for="address">Adresse *</label>
                                 <textarea type="text" class="form-control" id="address" name="adresse" placeholder="" required></textarea>
@@ -107,6 +108,10 @@
                                 </div>
                             </div>
                             <hr class="mb-4">
+
+<!--                            <form action="" method="post">-->
+                                    <button type="submit" class="btn_confirm">Confirmer le paiement</button>
+<!--                                </form>-->
                             <!-- <div style="text-align: center;">
                                 <img src="{% static 'images/payment-icon/1.png' %}" alt="">
                                 <img src="{% static 'images/payment-icon/2.png' %}" alt="">
@@ -164,12 +169,6 @@
                                     <div class="ml-auto h5"> VND {{gd_total}} </div>
                                 </div>
                                 <hr>
-
-                                <form action="{% url 'confpaye' %}" method="post">
-                                    {% csrf_token %}
-                                    <button type="submit" class="btn_confirm">Confirmer le paiement</button>
-                                </form>
-
                             </div>
 
 

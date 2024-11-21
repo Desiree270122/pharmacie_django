@@ -65,7 +65,7 @@
         <h3>Total à payer: {{ total }} €</h3>
 
         <!-- Bouton de paiement -->
-        <form action="{% url 'process_payment' %}" method="post">
+        <form action="" method="post">
             {% csrf_token %}
             <button type="submit" class="btn btn-primary">Terminer</button>
         </form>

@@ -1,12 +1,13 @@
 from django.contrib import messages
 from django.contrib.sites.shortcuts import get_current_site
 from django.core.mail import send_mail
+from django.db import transaction
 from django.shortcuts import render, redirect
 from django.http import HttpResponseRedirect, JsonResponse
 from django.contrib.auth import authenticate, login, logout
 from django.core.files import File
 from django.contrib.auth.decorators import login_required
-from django.db.models import Sum
+from django.db.models import Sum, OuterRef, Exists
 from django.template.loader import render_to_string
 from django.urls import reverse
 
@@ -14,13 +15,15 @@ from django.shortcuts import render, redirect
 from django.views import View
 from django.contrib import messages
 
-
+from stock_pharma.models import Stock
 from .forms import RegisterForm, LoginForm
 from .serializers import *
 from .models import *
 from .utils import generate_username
 
-
+from django.shortcuts import render, redirect
+from django.contrib import messages
+from .models import Panier, Commande, Detail_commande
 # Create your views here.
 
 def liste_articles(request):
@@ -34,7 +37,15 @@ def liste_articles(request):
     articles_etiq_value = []
     if pk:
         article = Article.objects.filter(pk=pk).first()
-        articles = Article.objects.all()
+        stocks_with_quantity = Stock.objects.filter(
+            article=OuterRef('pk'),
+            quantity__gt=0
+        )
+
+        # Requête principale pour obtenir les articles
+        articles = Article.objects.annotate(
+            has_positive_stock=Exists(stocks_with_quantity)
+        ).filter(has_positive_stock=True)
         context = {
             "segment": "shop",
             "article": article,
@@ -48,7 +59,15 @@ def liste_articles(request):
             articles = Article.objects.filter(etiquette__in = [etiq])
         else:
             print(" ")
-            articles = Article.objects.all()
+            stocks_with_quantity = Stock.objects.filter(
+                article=OuterRef('pk'),
+                quantity__gt=0
+            )
+
+            # Requête principale pour obtenir les articles
+            articles = Article.objects.annotate(
+                has_positive_stock=Exists(stocks_with_quantity)
+            ).filter(has_positive_stock=True)
             for article in articles:
                 etiquettes_value = [etiquette.value for etiquette in article.etiquette.all()]
                 etiquettes_value_str = ' '.join(etiquettes_value)
@@ -65,8 +84,29 @@ def liste_articles(request):
         return render(request, "shop.html", context)
     
 def template_accueil(request):
-    articles = Article.objects.all()
-    print(articles)
+    # stocks = Stock.objects.filter(quantity__gt=0)
+    # print(stocks)
+    # articles = Article.objects.all()
+    # print(articles.count())
+    # for stock in stocks:
+    #     articles = Article.objects.get(pk=stock.article.id)
+    # Sous-requête pour vérifier l'existence d'un stock positif pour un article
+    stocks_with_quantity = Stock.objects.filter(
+        article=OuterRef('pk'),
+        quantity__gt=0
+    )
+
+    # Requête principale pour obtenir les articles
+    articles = Article.objects.annotate(
+        has_positive_stock=Exists(stocks_with_quantity)
+    ).filter(has_positive_stock=True)
+
+    # Utilisation des résultats
+    # for article in articles:
+    #     print(article.name)
+    print(articles.count())
+
+    # print(articles)
     articles_etiq_value = []
     for article in articles:
         etiquettes_value = [etiquette.value for etiquette in article.etiquette.all()]
@@ -88,7 +128,15 @@ def template_accueil(request):
 
 def template_panier(request):
     panier = []
-    articles = Article.objects.all()
+    stocks_with_quantity = Stock.objects.filter(
+        article=OuterRef('pk'),
+        quantity__gt=0
+    )
+
+    # Requête principale pour obtenir les articles
+    articles = Article.objects.annotate(
+        has_positive_stock=Exists(stocks_with_quantity)
+    ).filter(has_positive_stock=True)
     if request.user and not request.user.is_anonymous:
         panier = Panier.objects.filter(user=request.user)
 
@@ -418,30 +466,44 @@ def checkout(request):
     print("je suis venu ici")
     paniers = []
     print("1")
-    amount = 0 if not calculate_cart_total(request.user)  else calculate_cart_total(request.user)
+    amount = 0 if not calculate_cart_total(request.user) else calculate_cart_total(request.user)
     print("2")
     tva = amount*17/100
     gd_total = amount + tva
-    if request.user and not request.user.is_anonymous :
+    if request.user and not request.user.is_anonymous:
         paniers = Panier.objects.filter(user=request.user)
     if request.method == 'POST':
         # token = request.POST.get('stripeToken')
-         
+
         try:
+            print("je suis venu ici")
             """charge = stripe.Charge.create(
                 amount=gd_total*100,
                 currency='vnd',
                 description='Achat sur votre site e-commerce',
                 source=token,
             )"""
+
+            # Calculer le total du panier
+            # total = sum(item.article.prix * item.qte for item in paniers)
+
+            commande = Commande()
+            commande.user = request.user
+            commande.pays = request.POST.get('pays')
+            commande.region = request.POST.get('region')
+            commande.code_postal = request.POST.get('code_zip')
+            commande.adresse = request.POST.get('adresse')
+            commande.total = gd_total
+            # commande.panier = paniers
+            commande.save()
             
-            commande, created = Commande.objects.get_or_create(
-                pays = request.POST.get('pays'),
-                region = request.POST.get('region'),
-                code_postal = request.POST.get('code_postal'),
-                adresse = request.POST.get('adresse'),
-                user = request.user
-            )
+            # commande = Commande.objects.get_or_create(
+            #     pays =
+            #     region =
+            #     code_postal = ,
+            #     adresse = ,
+            #     user = request.user
+            # )
             
             for panier in paniers: 
                 detail_commande = Detail_commande.objects.create(
@@ -449,26 +511,37 @@ def checkout(request):
                     commande = commande,
                     qte = panier.qte
                 )
-                panier.delete()
+                # panier.delete()
+
+            request.session['commande_id'] = commande.id
+
+            return redirect(
+                reverse(
+                    "confpaye",
+                    kwargs={
+                        "commande_id": commande.id
+                    }
+                )
+            )
+
+            # return redirect("confpaye")
             
         except Exception as e:
             print('erreur lors du traitement')
             print(e)
             # Gestion des erreurs liées à la carte
             #return render(request, 'error.html', {'error': e.message})
-
-        return render(request, 'success.html')
     STRIPE_PUBLIC_KEY = settings.STRIPE_PUBLIC_KEY
-    context ={
+    context = {
         'segment': 'panier',
-        "STRIPE_PUBLIC_KEY":STRIPE_PUBLIC_KEY,
-        "panier":paniers,
-        "amount":amount,
-        "tva":tva,
-        "gd_total":gd_total,
-        "montant":gd_total*100
+        "STRIPE_PUBLIC_KEY": STRIPE_PUBLIC_KEY,
+        "panier": paniers,
+        "amount": amount,
+        "tva": tva,
+        "gd_total": gd_total,
+        "montant": gd_total*100,
     }
-    return render(request, 'checkout1.html', {"STRIPE_PUBLIC_KEY":STRIPE_PUBLIC_KEY, "panier":paniers, "amount":amount, "tva":tva, "gd_total":gd_total, "montant":gd_total*100})
+    return render(request, 'checkout1.html', context)
 
 def calculate_cart_total(user):
     paniers = Panier.objects.filter(user=user)
@@ -497,31 +570,149 @@ class PaymentView(View):
 
 
 
-def confirmation_order(request):
+# def confirmation_order(request):
+#     if not request.user.is_authenticated:
+#         # Rediriger l'utilisateur vers la page de connexion ou autre
+#         return redirect('login')
+#
+#     paniers = Panier.objects.filter(user=request.user)  # Obtenez le panier pour l'utilisateur connecté
+#     total = sum(item.article.prix * item.qte for item in paniers)  # Calculez le total
+#
+#     # Si vous avez des données supplémentaires à passer, ajoutez-les ici
+#     context = {
+#         'panier': paniers,
+#         'total': total,
+#         'stripe_public_key': 'VotreCléPubliqueStripe',
+#         'user_info': request.user
+#     }
+#     return render(request, 'confpaye.html', context)
+
+
+def confirmation_order(request, commande_id):
+
+    print('ehbfznfbhezusy')
     if not request.user.is_authenticated:
         # Rediriger l'utilisateur vers la page de connexion ou autre
         return redirect('login')
 
-    paniers = Panier.objects.filter(user=request.user)  # Obtenez le panier pour l'utilisateur connecté
-    total = sum(item.article.prix * item.qte for item in paniers)  # Calculez le total
+    # Récupérer le panier de l'utilisateur
+    paniers = Panier.objects.filter(user=request.user)
 
-    # Si vous avez des données supplémentaires à passer, ajoutez-les ici
+    commande = Commande.objects.get(pk=commande_id)
+
+    if not paniers:
+        # Rediriger si le panier est vide
+        messages.error(request, "Votre panier est vide.")
+        return redirect('template_panier')
+
+    # Calculer le total du panier
+    total = sum(item.article.prix * item.qte for item in paniers)
+
+    # commande = Commande()
+    # commande.user = request.user
+    # commande.pays =
+    # commande.region =
+    # commande.code_postal =
+    # commande.adresse =
+
+    # Créer la commande
+    # , created = Commande.objects.get_or_create(
+    #     user=request.user,
+    # )
+
+    # Créer les détails de la commande s'ils n'existent pas déjà
+    if request.method == 'POST':
+        for panier in paniers:
+            # Créer le détail de la commande
+            detail_commande = Detail_commande.objects.create(
+                commande=commande,
+                article=panier.article,
+                qte=panier.qte
+            )
+
+            # Mettre à jour le stock de l'article
+            stock = Stock.objects.get(article=panier.article)
+            if stock.quantity >= panier.qte:
+                stock.quantity -= panier.qte
+                stock.save()
+            else:
+                # Annuler la commande si la quantité demandée est supérieure au stock disponible
+                messages.error(request, f"Le produit {panier.article.nom} n'a pas assez de stock disponible.")
+            # return redirect('panier')
+
+            # Supprimer les articles du panier après la création de la commande
+        paniers.delete()
+
+        print('Je suis venu ici maintenant')
+
+        return redirect(
+            reverse(
+                "order_complete",
+                kwargs={
+                    "commande_id": commande.id
+                }
+            )
+        )
+
+
+    # Récupérer les détails de la commande
+    details_commande = Detail_commande.objects.filter(commande=commande)
+
+    # Passer les données à la vue
     context = {
-        'panier': paniers,
+        'commande': commande,
+        'details_commande': details_commande,
         'total': total,
         'stripe_public_key': 'VotreCléPubliqueStripe',
-        'user_info': request.user  # Assurez-vous que le modèle utilisateur contient les informations nécessaires
+        'user_info': request.user,
+        "panier": paniers
     }
+
     return render(request, 'confpaye.html', context)
 
 
-def order_complete(request):
+def order_complete(request, commande_id):
+    if not request.user.is_authenticated:
+        # Rediriger l'utilisateur vers la page de connexion ou autre
+        return redirect('login')
+
     total = calculate_cart_total(request.user)
 
+    commande = Commande.objects.get(pk=commande_id)
 
+    # Récupérer le panier de l'utilisateur
+    # paniers = Panier.objects.filter(user=request.user)
+    #
+    # if not paniers:
+    #     # Rediriger si le panier est vide
+    #     messages.error(request, "Votre panier est vide.")
+    #     return redirect('panier')
+
+
+
+    # for panier in paniers:
+    #     # Créer le détail de la commande
+    #     detail_commande = Detail_commande.objects.create(
+    #         commande=commande,
+    #         article=panier.article,
+    #         qte=panier.qte
+    #     )
+    #
+    #     # Mettre à jour le stock de l'article
+    #     stock = Stock.objects.get(article=panier.article)
+    #     if stock.quantity >= panier.qte:
+    #         stock.quantity -= panier.qte
+    #         stock.save()
+    #     else:
+    #         # Annuler la commande si la quantité demandée est supérieure au stock disponible
+    #         messages.error(request, f"Le produit {panier.article.nom} n'a pas assez de stock disponible.")
+    #         return redirect('template_panier')
+    #
+    # # Supprimer les articles du panier après la création de la commande
+    # paniers.delete()
 
     context = {
         'total': total,
-        'stripe_public_key': 'VotreCléPubliqueStripe'
+        'commande': commande,
     }
     return render(request, 'order_complete.html', context)

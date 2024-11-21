@@ -46,10 +46,10 @@ urlpatterns = [
     path('articles_panier', liste_articles_panier, name='articles_panier'),
     path('message_contact', message_contact, name='message_contact'),
     path('checkout', checkout, name='checkout'),
-    path('confpaye/', confirmation_order, name='confpaye'),
-    path('order_complete', order_complete, name='order_complete'),
+    path('confpaye/<int:commande_id>', confirmation_order, name='confpaye'),
+    # path('order_complete', order_complete, name='order_complete'),
     path('process_payment', process_payment, name='process_payment'),
-
+    path('order_complete/<int:commande_id>', order_complete, name='order_complete'),
 ] 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

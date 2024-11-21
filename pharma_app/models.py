@@ -139,6 +139,8 @@ class Commande(models.Model):
     code_postal = models.CharField(max_length=255, null=True, blank=True)
     adresse = models.TextField(null=True, blank=True)
     create_date = models.DateTimeField(auto_now_add=True)
+    panier = models.JSONField(blank=True, null=True)
+    total = models.FloatField(null=True, blank=True)
     
 class Detail_commande(models.Model):
     article = models.ForeignKey(Article, null=True, blank=True, on_delete=models.SET_NULL)
@@ -167,4 +169,4 @@ class Message(models.Model):
     
     def __str__(self):
         return f"{self.article}"
-    
+
