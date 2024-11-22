@@ -45,31 +45,74 @@
       {% include "header.html" %}
     {% endblock  %}
 
-    <div class="container">
-        <h1>Confirmation de Paiement</h1>
-        <h2>Adresse de Livraison</h2>
-        <p>Nom: {{ user_info.first_name }} {{ user_info.last_name }}</p>
-        <p>Email: {{ user_info.email }}</p>
-        <p>Téléphone: {{ user_info.phone }}</p>
+   <div class="container mt-5">
+    <h1 class="text-center mb-4">Confirmation de Paiement</h1>
 
-        <h2>Votre Panier</h2>
-        {% for item in panier %}
-        <div>
-            <p>Article: {{ item.article.designation }}</p>
-            <p>Prix unitaire: {{ item.article.prix }} €</p>
-            <p>Quantité: {{ item.qte }}</p>
+    <!-- Adresse de Livraison -->
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card mb-4">
+                <div class="card-header bg-primary">
+                    <h3 class="mb-0" style="color: #ffffff;"><i class="fas fa-map-marker-alt" style="color: #ffffff;"></i> Adresse de Livraison</h3>
+                </div>
 
+                <div class="card-body">
+                    <p><i class="fas fa-user"></i> <strong style="color: #000;">Nom:</strong> <span style="color: #007bff;">{{ user_info.first_name }}</span> <span style="color: #007bff;">{{ user_info.last_name }}</span></p>
+                    <p><i class="fas fa-envelope"></i> <strong style="color: #000;">Email:</strong> <span style="color: #007bff;">{{ user_info.email }}</span></p>
+                    <p><i class="fas fa-phone"></i> <strong style="color: #000;">Téléphone:</strong> <span style="color: #007bff;">{{ user_info.phone }}</span></p>
+                </div>
+            </div>
         </div>
-        {% endfor %}
 
-        <h3>Total à payer: {{ total }} €</h3>
+        <!-- Panier -->
+        <div class="col-md-4">
+            <div class="card mb-4">
+                <div class="card-header bg-success text-white">
+                    <h3 class="mb-0"><i class="fas fa-shopping-cart"></i> Votre Panier</h3>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-bordered">
+                            <thead class="thead-light">
+                                <tr>
+                                    <th>Article</th>
+                                    <th>Prix unitaire (VND)</th>
+                                    <th>Quantité</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for item in panier %}
+                                <tr>
+                                    <td>{{ item.article.designation }}</td>
+                                    <td>{{ item.article.prix }}</td>
+                                    <td>{{ item.qte }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-        <!-- Bouton de paiement -->
-        <form action="" method="post">
-            {% csrf_token %}
-            <button type="submit" class="btn btn-primary">Terminer</button>
-        </form>
+        <!-- Total à Payer -->
+        <div class="col-md-4">
+            <div class="card mb-4">
+                <div class="card-body text-center">
+                    <h3 class="text-dark"><strong>Total à payer:</strong> {{ total }} VND</h3>
+                </div>
+            </div>
+
+            <!-- Bouton de Paiement -->
+            <div class="text-center">
+                <form action="" method="post">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-primary btn-lg"><i class="fas fa-credit-card"></i> Terminer le Paiement</button>
+                </form>
+            </div>
+        </div>
     </div>
+</div>
  {% block  footer %}
       {% include "footer.html" %}
     {% endblock  %}

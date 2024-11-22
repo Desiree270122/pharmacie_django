@@ -106,7 +106,9 @@
                                                     <div class="type-lb">
                                                         <p class="sale">Vente</p>
                                                     </div>
+                                                    {% if article.image %}
                                                     <img src="{{ article.image.url }}" class="img-fluid" alt="Image">
+                                                    {% endif %}
                                                     <div class="mask-icon">
                                                         <ul>
                                                             <li><a href="{% url 'shop' %}?pk={{article.id}}" data-toggle="tooltip" data-placement="right" title="Voir détail"><i class="fas fa-eye"></i></a></li>
@@ -142,7 +144,9 @@
                                                         <div class="type-lb">
                                                             <p class="new">Sale</p>
                                                         </div>
-                                                        <img src="{{ article.image.url }}" class="img-fluid" alt="Image">
+                                                        {% if article.image %}
+                                                    <img src="{{ article.image.url }}" class="img-fluid" alt="Image">
+                                                    {% endif %}
                                                         <div class="mask-icon">
                                                             <ul>
                                                                 <li><a href="{% url 'shop' %}?pk={{article.id}}" data-toggle="tooltip" data-placement="right" title="View"><i class="fas fa-eye"></i></a></li>

@@ -7,7 +7,7 @@ from django.utils.html import mark_safe
 class ArticleAdmin(admin.ModelAdmin):
     list_display = ('designation', 'image_tag', 'prix_vente', 'etiquettes', 'quantite_en_stock' , 'active' , 'create_date')
     def image_tag(self, obj):
-        return mark_safe(f'<img src="{obj.image.url}" width="150" />')
+        return mark_safe(f'<img src="{obj.image.url}" width="150" />') if obj.image else ""
     
     def prix_vente(self, obj):
         if obj.devise=='dong':

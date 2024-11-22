@@ -5,7 +5,9 @@
         {% for article in articles %}
         <div class="item">
             <div class="ins-inner-box">
+                {% if article.image %}
                 <img src="{{ article.image.url }}" alt="" />
+                {% endif %}
 
             </div>
         </div>

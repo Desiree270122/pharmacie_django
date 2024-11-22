@@ -472,6 +472,11 @@ def checkout(request):
     gd_total = amount + tva
     if request.user and not request.user.is_anonymous:
         paniers = Panier.objects.filter(user=request.user)
+        if paniers.count() == 0:
+            print("panier vide")
+
+            return redirect('accueil')
+
     if request.method == 'POST':
         # token = request.POST.get('stripeToken')
 
@@ -631,6 +636,7 @@ def confirmation_order(request, commande_id):
             )
 
             # Mettre à jour le stock de l'article
+            # if Stock.objects.get(article=panier.article).exists():
             stock = Stock.objects.get(article=panier.article)
             if stock.quantity >= panier.qte:
                 stock.quantity -= panier.qte
@@ -679,6 +685,23 @@ def order_complete(request, commande_id):
     total = calculate_cart_total(request.user)
 
     commande = Commande.objects.get(pk=commande_id)
+
+    if request.method == 'POST':
+        to_email = request.user.email
+        from_email = settings.DEFAULT_FROM_EMAIL
+        mail_subject = "Order completed"
+        msge = "Order completed"
+
+        try:
+            send_mail(
+                mail_subject,
+                msge,
+                from_email,
+                [to_email, ],
+                fail_silently=False,
+            )
+        except Exception as e:
+            print(e)
 
     # Récupérer le panier de l'utilisateur
     # paniers = Panier.objects.filter(user=request.user)
