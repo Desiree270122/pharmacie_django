@@ -84,7 +84,7 @@
                 <div class="col-lg-12">
                     <div class="table-main table-responsive">
                         <h2>Panier</h2>
-                        <table class="table">
+                        <table class="table" style="background: #0092ca !important;">
                             <thead>
                                 <tr>
                                     <th>Images</th>
@@ -107,41 +107,41 @@
 
 
         </div>
-        <div class="row my-5">
-            <div class="col-lg-12">
-                <div class="title-all text-center">
-                    <h1>Autres articles</h1>
-                </div>
-                <div class="featured-products-box owl-carousel owl-theme">
-                    {% for article in articles %}
-                    <div class="item">
-                        <div class="products-single fix">
-                            <div class="box-img-hover">
-                                <img src="{{ article.image.url }}" class="img-fluid" alt="Image">
-                                <div class="mask-icon">
-                                    <ul>
-                                        <li><a href="{% url 'shop' %}?pk={{article.id}}" data-toggle="tooltip" data-placement="right" title="View"><i class="fas fa-eye"></i></a></li>
-                                    </ul>
-                                    <a class="cart add_to_cart" style="cursor:pointer" pk="{{article.id}}">Ajouter au panier</a>
-                                </div>
-                            </div>
-                            <div class="why-text">
-                                <h4>{{article.designation}}</h4>
-                                {% if article.devise == 'dong' %}
-                                    <h5> VND {{article.prix}}</h5>
-                                {% endif %}
-                                <!-- <label class="lbl_feedback" id="lbl_feedback"></label> -->
-                                {% if article.lien_paiement  %}
-                                    <a class="a-commander" style="" href="{{article.lien_paiement}}">Commander directement</a>
-                                {% endif %}
-                            </div>
-                        </div>
-                    </div>
-                    {% endfor %}
-                    
-                </div>
-            </div>
-        </div>
+<!--        <div class="row my-5">-->
+<!--            <div class="col-lg-12">-->
+<!--                <div class="title-all text-center">-->
+<!--                    <h1>Autres articles</h1>-->
+<!--                </div>-->
+<!--                <div class="featured-products-box owl-carousel owl-theme">-->
+<!--                    {% for article in articles %}-->
+<!--                    <div class="item">-->
+<!--                        <div class="products-single fix">-->
+<!--                            <div class="box-img-hover">-->
+<!--                                <img src="{{ article.image.url }}" class="img-fluid" alt="Image">-->
+<!--                                <div class="mask-icon">-->
+<!--                                    <ul>-->
+<!--                                        <li><a href="{% url 'shop' %}?pk={{article.id}}" data-toggle="tooltip" data-placement="right" title="View"><i class="fas fa-eye"></i></a></li>-->
+<!--                                    </ul>-->
+<!--                                    <a class="cart add_to_cart" style="cursor:pointer" pk="{{article.id}}">Ajouter au panier</a>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                            <div class="why-text">-->
+<!--                                <h4>{{article.designation}}</h4>-->
+<!--                                {% if article.devise == 'dong' %}-->
+<!--                                    <h5>  {{article.prix}} VND</h5>-->
+<!--                                {% endif %}-->
+<!--                                &lt;!&ndash; <label class="lbl_feedback" id="lbl_feedback"></label> &ndash;&gt;-->
+<!--                                {% if article.lien_paiement  %}-->
+<!--                                    <a class="a-commander" style="" href="{{article.lien_paiement}}">Commander directement</a>-->
+<!--                                {% endif %}-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                    {% endfor %}-->
+<!--                    -->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
     </div>
     <!-- End Cart -->
 
@@ -194,16 +194,16 @@
                                             ${paniers[i].article.designation}
                                         </a>
                                     </td>
-                                    <td class="price-pr">
-                                        <p>$ ${paniers[i].article.prix}</p>
+                                    <td class="price-pr text-white">
+                                        <p> ${paniers[i].article.prix} VND</p>
                                     </td>
                                     <td class="quantity-box"><input type="number" size="4" value="${paniers[i].qte}" pk="${paniers[i].id}" min="1" step="1" class="c-input-text qty text"></td>
-                                    <td class="total-pr">
-                                        <p>$ ${paniers[i].qte * paniers[i].article.prix}</p>
+                                    <td class="total-pr text-white">
+                                        <p> ${paniers[i].qte * paniers[i].article.prix} VND</p>
                                     </td>
                                     <td class="remove-pr">
-                                        <label pk="${paniers[i].id}" class="delete_to_cart" onclick="delete_to_cart(${paniers[i].article.id})">
-                                            <i class="fas fa-times"></i>Delete
+                                        <label pk="${paniers[i].id}" class="delete_to_cart text-white" onclick="delete_to_cart(${paniers[i].article.id})">
+                                            Delete
                                         </label>
                                     </td>
                                 </tr>`;

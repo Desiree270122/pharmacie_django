@@ -141,12 +141,16 @@ class Commande(models.Model):
     create_date = models.DateTimeField(auto_now_add=True)
     panier = models.JSONField(blank=True, null=True)
     total = models.FloatField(null=True, blank=True)
+    sub_total = models.FloatField(null=True, blank=True)
+    tva = models.FloatField(null=True, blank=True)
+    nbr_article = models.IntegerField(null=True, blank=True)
+
     
 class Detail_commande(models.Model):
     article = models.ForeignKey(Article, null=True, blank=True, on_delete=models.SET_NULL)
     commande = models.ForeignKey(Commande, null=True, blank=True, on_delete=models.SET_NULL)
     qte = models.IntegerField(null=True, blank=True)
-    
+
     
     def __str__(self):
         return f"{self.article}"

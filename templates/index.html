@@ -166,7 +166,7 @@
             <div class="row special-list">
                 {% for article_etiq_value in articles_etiq_value %}
                 <div class="col-lg-3 col-md-6 special-grid {{article.categorie}} {{article_etiq_value.etiquettes_value_str}}">
-                    <div class="products-single fix">
+                    <div class="products-single fix" style="background: blue !important;">
                         <div class="box-img-hover">
                             <div class="type-lb">
                                 <p class="sale">En Stock</p>
@@ -174,10 +174,10 @@
                             <img src="{{ article_etiq_value.article.image.url }}" class="img-fluid" alt="Image">
                             <div class="mask-icon">
                                 <ul>
-                                    <li><a href="{% url 'shop' %}?pk={{article_etiq_value.article.id}}" data-toggle="tooltip" data-placement="right" title="View"><i class="fas fa-eye"></i></a></li>
+                                    <li><a href="{% url 'shop' %}?pk={{article_etiq_value.article.id}}" data-toggle="tooltip" data-placement="right" title="View">Detail</a></li>
                                 </ul>
                                 <a class="cart add_to_cart" href="{% url 'add_to_cart' article_etiq_value.article.id %}" style="cursor:pointer" pk="{{article_etiq_value.article.id}}">Ajouter au panier</a><br>
-                                
+
                             </div>
                         </div>
                         <div class="why-text">

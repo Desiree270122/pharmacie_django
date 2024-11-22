@@ -465,7 +465,7 @@ def checkout(request):
 #    if
     print("je suis venu ici")
     paniers = []
-    print("1")
+    total_product = 0
     amount = 0 if not calculate_cart_total(request.user) else calculate_cart_total(request.user)
     print("2")
     tva = amount*17/100
@@ -476,6 +476,7 @@ def checkout(request):
             print("panier vide")
 
             return redirect('accueil')
+        total_product = paniers.count()
 
     if request.method == 'POST':
         # token = request.POST.get('stripeToken')
@@ -499,6 +500,8 @@ def checkout(request):
             commande.code_postal = request.POST.get('code_zip')
             commande.adresse = request.POST.get('adresse')
             commande.total = gd_total
+            commande.sub_total = amount
+            commande.tva = tva
             # commande.panier = paniers
             commande.save()
             
@@ -509,6 +512,8 @@ def checkout(request):
             #     adresse = ,
             #     user = request.user
             # )
+
+            nbr_article = 0
             
             for panier in paniers: 
                 detail_commande = Detail_commande.objects.create(
@@ -516,7 +521,12 @@ def checkout(request):
                     commande = commande,
                     qte = panier.qte
                 )
+                nbr_article+=1
                 # panier.delete()
+
+            commande.nbr_article = nbr_article
+            # commande.panier = paniers
+            commande.save()
 
             request.session['commande_id'] = commande.id
 
@@ -545,6 +555,7 @@ def checkout(request):
         "tva": tva,
         "gd_total": gd_total,
         "montant": gd_total*100,
+        "total_product": total_product,
     }
     return render(request, 'checkout1.html', context)
 
@@ -702,9 +713,17 @@ def order_complete(request, commande_id):
             )
         except Exception as e:
             print(e)
+        return redirect('accueil')
 
     # Récupérer le panier de l'utilisateur
     # paniers = Panier.objects.filter(user=request.user)
+
+    detail_commande = Detail_commande.objects.filter(commande=commande)
+
+    panier = detail_commande
+
+    print(detail_commande)
+
     #
     # if not paniers:
     #     # Rediriger si le panier est vide
@@ -737,5 +756,6 @@ def order_complete(request, commande_id):
     context = {
         'total': total,
         'commande': commande,
+        "panier": panier,
     }
     return render(request, 'order_complete.html', context)
